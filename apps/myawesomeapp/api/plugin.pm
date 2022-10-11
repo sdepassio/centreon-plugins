@@ -25,9 +25,9 @@ package apps::myawesomeapp::api::plugin;
 use strict;
 use warnings;
 # Load the base for your plugin, here we don't do SNMP, SQL or have a custom directory, so we use the _simple base
-use base qw(centreon::plugins::script_simple);
+use base qw(centreon::plugins::script_custom);
 
-# Global sub to create and return the perl object. Don't bother understand what each instruction is doing. 
+# Global sub to create and return the perl object. Don't bother understand what each instruction is doing.
 sub new {
     my ($class, %options) = @_;
     my $self = $class->SUPER::new(package => __PACKAGE__, %options);
@@ -42,6 +42,7 @@ sub new {
         'app-metrics' => 'apps::myawesomeapp::api::mode::appmetrics'
     };
 
+    $self->{custom_modes}->{api} = 'apps::myawesomeapp::api::custom::api';
     return $self;
 }
 

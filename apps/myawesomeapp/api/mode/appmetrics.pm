@@ -16,48 +16,11 @@ use JSON::XS;
 
 sub new {
     my ($class, %options) = @_;
-    # All options/properties of this mode, always add the force_new_perfdata => 1 to enable new metric/performance data naming.
-    # It also where you can specify that the plugin uses a cache file for example
     my $self = $class->SUPER::new(package => __PACKAGE__, %options, force_new_perfdata => 1);
     bless $self, $class;
 
-    # This is where you can specify options/arguments your plugin supports.
-    # All options here stick to what the centreon::plugins::http module needs to establish a connection
-    # You don't have to specify all options from the http module, only the one that the user may want to tweak for its needs
-    $options{options}->add_options(arguments => {
-        # One the left it's the option name that will be used in the command line. The ':s' at the end is to
-        # define that this options takes a value.
-        # On the right, it's the code name for this option, optionnaly you can define a default value so the user
-        # doesn't have to set it
-         'hostname:s'           => { name => 'hostname' },
-         'proto:s'               => { name => 'proto', default => 'https' },
-         'port:s'               => { name => 'port', default => 443 },
-         'timeout:s'            => { name => 'timeout' },
-        # These options are here to defined conditions about which status the plugin will return regarding HTTP response code
-         'unknown-status:s'     => { name => 'unknown_status', default => '%{http_code} < 200 or %{http_code} >= 300' },
-         'warning-status:s'     => { name => 'warning_status' },
-         'critical-status:s'    => { name => 'critical_status', default => '' }
-    });
-
-    # This is to create a local copy of a centreon::plugins::http that we will manipulate
-    # %options basically overwrite default http value with key/value pairs from options above to instantiate the http module
-    # Ref https://github.com/centreon/centreon-plugins/blob/520a1f8c10cd434c6dedd1e342285eecff8b9d1b/centreon/plugins/http.pm#L59
-    $self->{http} = centreon::plugins::http->new(%options);
+    $options{options}->add_options(arguments => {});
     return $self;
-}
-
-sub check_options {
-    my ($self, %options) = @_;
-    $self->SUPER::check_options(%options);
-
-    # Check if the user provided a value for --hostname option. If not, display a message and exit
-    if (!defined($self->{option_results}->{hostname}) || $self->{option_results}->{hostname} eq '') {
-        $self->{output}->add_option_msg(short_msg => 'Please set hostname option');
-        $self->{output}->option_exit();
-    }
-    # Set parameters for http module, note that the $self->{option_results} is a hash containing
-    # all your options key/value pairs.
-    $self->{http}->set_options(%{$self->{option_results}});
 }
 
 sub set_counters {
@@ -157,13 +120,13 @@ sub set_counters {
 sub prefix_health_output {
     my ($self, %options) = @_;
 
-    return 'My-awesome-app:';
+    return 'My-awesome-app: ';
 }
 
 sub prefix_queries_output {
     my ($self, %options) = @_;
 
-    return 'Queries:';
+    return 'Queries: ';
 }
 
 sub prefix_app_output {
@@ -176,22 +139,8 @@ sub prefix_app_output {
 
 sub manage_selection {
     my ($self, %options) = @_;
-    # We have already loaded all things required for the http module
-    # Use the request method from the imported module to run the GET request against the URL path of our API
-    my ($content) = $self->{http}->request(url_path => '/v3/da8d5aa7-abb4-4a5f-a31c-6700dd34a656');
-    # Uncomment the line below when you reached this part of the tutorial.
-    # print $content;
 
-    # Declare a scalar deserialize the JSON content string into a perl data structure
-    my $decoded_content;
-    eval {
-        $decoded_content = JSON::XS->new->decode($content);
-    };
-    # Catch the error that may arise in case the data received is not JSON
-    if ($@) {
-        $self->{output}->add_option_msg(short_msg => "Cannot encode JSON result");
-        $self->{output}->option_exit();
-    }
+    my $results = $options{custom}->request_api();
     # Uncomment the lines below when you reached this part of the tutorial.
     # use Data::Dumper;
     # print Dumper($decoded_content);
@@ -202,21 +151,21 @@ sub manage_selection {
     # $self->{health} is your counter definition (see $self->{maps_counters}->{<name>})
     # Here, we map the obtained string $decoded_content->{health} with the health key_value in the counter.
     $self->{health} = {
-        health => $decoded_content->{health}
+        health => $results->{health}
     };
 
     # $self->{queries} is your counter definition (see $self->{maps_counters}->{<name>})
     # Here, we map the obtained values from the db_queries nodes with the key_value defined in the counter.
     $self->{queries} = {
-        select => $decoded_content->{db_queries}->{select},
-        update => $decoded_content->{db_queries}->{update},
-        delete => $decoded_content->{db_queries}->{delete}
+        select => $results->{db_queries}->{select},
+        update => $results->{db_queries}->{update},
+        delete => $results->{db_queries}->{delete}
     };
 
     # Initialize an empty app_metrics counter.
     $self->{app_metrics} = {};
     # Loop in the connections array of hashes
-    foreach my $entry (@{ $decoded_content->{connections} }) {
+    foreach my $entry (@{ $results->{connections} }) {
         # Same logic than type => 0 counters but an extra key $entry->{component} to associate the value
         # with a specific instance
         $self->{app_metrics}->{ $entry->{component} }->{display} = $entry->{component};
@@ -224,7 +173,7 @@ sub manage_selection {
     };
 
     # Exactly the same thing with errors
-    foreach my $entry (@{ $decoded_content->{errors} }) {
+    foreach my $entry (@{ $results->{errors} }) {
         # Don't need to redefine the display key, just assign a value to the error key_value while
         # keeping the $entry->{component} key to associate the value with the good instance
         $self->{app_metrics}->{ $entry->{component} }->{errors} = $entry->{value};
@@ -234,39 +183,3 @@ sub manage_selection {
 
 # This should always be present at the end of the script.
 1;
-
-__END__
-
-=head1 MODE
-
-Check my-awesome-app metrics exposed through its API
-
-=over 8
-
-=item B<--warning/critical-health>
-
-Warning and critical threshold for application health string.
-
-Defaults values are: --warning-health='%{health} eq "yellow"' --critical-health='%{health} eq "red"'
-
-=item B<--warning/critical-select>
-
-Warning and critical threshold for select queries
-
-=item B<--warning/critical-update>
-
-Warning and critical threshold for update queries
-
-=item B<--warning/critical-delete>
-
-Warning and critical threshold for delete queries
-
-=item B<--warning/critical-connections>
-
-Warning and critical threshold for connections
-
-=item B<--warning/critical-errors>
-
-Warning and critical threshold for errors
-
-=back
