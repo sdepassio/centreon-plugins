@@ -4,15 +4,11 @@ package apps::myawesomeapp::api::mode::appmetrics;
 # Don't forget these ;)
 use strict;
 use warnings;
-# We want to connect to an HTTP server, let's use the common module
-use centreon::plugins::http;
 # Use the counter module. It will save you a lot of work and will manage a lot of things for you.
 # Consider this as mandatory when writing a new mode.
 use base qw(centreon::plugins::templates::counter);
 # Import some functions that will make your life easier
 use centreon::plugins::templates::catalog_functions qw(catalog_status_threshold_ng);
-# We will have to process some JSON, no need to reinvent the wheel, load the lib you installed in a previous section
-use JSON::XS;
 
 sub new {
     my ($class, %options) = @_;

@@ -24,7 +24,6 @@ use strict;
 use warnings;
 
 use centreon::plugins::http;
-use centreon::plugins::templates::catalog_functions qw(catalog_status_threshold_ng);
 use JSON::XS;
 
 sub new {
