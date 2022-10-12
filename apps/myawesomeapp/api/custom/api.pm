@@ -43,6 +43,7 @@ sub new {
     if (!defined($options{noptions})) {
         $options{options}->add_options(arguments => {
             'hostname:s'           => { name => 'hostname' },
+            'url-path:s'           => { name => 'url_path' },
             'proto:s'              => { name => 'proto', default => 'https' },
             'port:s'               => { name => 'port', default => 443 },
             'timeout:s'            => { name => 'timeout' },
@@ -71,6 +72,7 @@ sub check_options {
     my ($self, %options) = @_;
 
     $self->{hostname} = (defined($self->{option_results}->{hostname})) ? $self->{option_results}->{hostname} : '';
+    $self->{url_path} = (defined($self->{option_results}->{url_path})) ? $self->{option_results}->{url_path} : '';
     $self->{proto} = (defined($self->{option_results}->{proto})) ? $self->{option_results}->{proto} : 'https';
     $self->{port} = (defined($self->{option_results}->{port})) ? $self->{option_results}->{port} : 443;
     $self->{timeout} = (defined($self->{option_results}->{timeout})) ? $self->{option_results}->{timeout} : 10;
@@ -82,6 +84,10 @@ sub check_options {
         $self->{output}->add_option_msg(short_msg => 'Please set hostname option');
         $self->{output}->option_exit();
     }
+    if (!defined($self->{url_path}) || $self->{url_path} eq '') {
+        $self->{output}->add_option_msg(short_msg => 'Please set url-path option');
+        $self->{output}->option_exit();
+    }
 
     return 0;
 }
@@ -90,6 +96,7 @@ sub settings {
     my ($self, %options) = @_;
 
     $self->{option_results}->{hostname} = $self->{hostname};
+    $self->{option_results}->{url_path} = $self->{url_path};
     $self->{option_results}->{proto} = $self->{proto};
     $self->{option_results}->{port} = $self->{port};
     $self->{option_results}->{timeout} = $self->{timeout};
@@ -105,7 +112,10 @@ sub request_api {
 
     $self->settings();
 
-    my ($content) = $self->{http}->request(url_path => '/v3/da8d5aa7-abb4-4a5f-a31c-6700dd34a656');
+    # my ($content) = $self->{http}->request(url_path => '/v3/da8d5aa7-abb4-4a5f-a31c-6700dd34a656');
+    my $content = $self->{http}->request(
+        url_path => $self->{option_results}->{url_path}
+    );
 
     if (!defined($content) || $content eq '') {
         $self->{output}->add_option_msg(short_msg => "API returns empty content [code: '" . $self->{http}->get_code() . "'] [message: '" . $self->{http}->get_message() . "']");
