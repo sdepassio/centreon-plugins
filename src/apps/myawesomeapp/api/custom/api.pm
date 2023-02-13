@@ -42,8 +42,8 @@ sub new {
 
     if (!defined($options{noptions})) {
         $options{options}->add_options(arguments => {
-            'hostname:s'           => { name => 'hostname' },
-            'url-path:s'           => { name => 'url_path' },
+            'hostname:s'           => { name => 'hostname', default => 'run.mocky.io' },
+            'url-path:s'           => { name => 'url_path', default => '/v3/da8d5aa7-abb4-4a5f-a31c-6700dd34a656' },
             'proto:s'              => { name => 'proto', default => 'https' },
             'port:s'               => { name => 'port', default => 443 },
             'timeout:s'            => { name => 'timeout' },
