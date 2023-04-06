@@ -1,0 +1,51 @@
+name: Run mock API server
+on:
+  push:
+    branches:
+      - tests
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+      - name: Install and run Mockoon CLI
+        run: |
+          npm install -D @mockoon/cli
+          npx mockoon-cli start --data test/resources/mockoon/azure/azure-policyinsights.json --port 3000
+      - name: Install perl dependencies
+        uses: perl-actions/install-with-cpm@stable
+        with:
+          install: |
+            DateTime
+            Digest::MD5
+            Encode
+            HTTP::ProxyPAC
+            IO::Socket::SSL
+            JSON::XS
+            LWP::Protocol::https
+            LWP::UserAgent
+            MIME::Base64
+            POSIX
+            Storable
+            URI
+            URI::Encode
+      - name: Run plugin
+        run: |
+          sudo chmod +x test/plugins_api/azure_policies.sh
+          sudo mkdir -p /var/lib/centreon/centplugins/
+          sudo chmod 777 /var/lib/centreon/centplugins/
+          TESTS="$(test/plugins_api/azure_policies.sh)"
+          echo "tests=$(echo $TESTS)" >> $GITHUB_OUTPUT
+          if [[ $TESTS = "OK:"* ]]; then
+            echo "OK"
+          else
+            echo $TESTS
+            exit 1
+          fi
+        shell: bash
