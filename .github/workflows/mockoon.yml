@@ -1,8 +1,9 @@
 name: Run mock API server
 on:
-  push:
-    branches:
-      - tests
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - tests
 
 jobs:
   test:

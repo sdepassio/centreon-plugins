@@ -1,0 +1,29 @@
+name: test-container
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  docker-service:
+    runs-on: ubuntu-22.04
+    container: ubuntu
+    services:
+      nginxservice:
+        image: nginx
+        ports:
+          - 8080:80/tcp
+      snmpsimservice:
+        image: vklidu/snmpsim
+        ports:
+          - 161:161/udp
+
+    steps:
+      - name: install
+        run: |
+          apt update
+          apt upgrade -y
+          apt-get install -y curl snmp
+      - name: curl
+        run: curl nginxservice:8080
+      - name: snmpwalk
+        run: snmpwalk -v2c -c public snmpsimservice:161
