@@ -12,6 +12,7 @@ on:
       - 'src/**'
       - 'tests/functional/**'
       - 'tests/resources/mockoon/**'
+      - 'tests/resources/snmp/**'
 
 jobs:
   functional-tests-with-robot:
@@ -29,7 +30,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: 16
 
       - name: Install Mockoon CLI
         run: npm install -g -D @mockoon/cli
