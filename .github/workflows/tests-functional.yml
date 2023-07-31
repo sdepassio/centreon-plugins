@@ -28,7 +28,10 @@ jobs:
         run: npm install -g -D @mockoon/cli
 
       - name: Install libs
-        run: sudo apt-get install libcurl4-openssl-dev
+        run: |
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt-get install libcurl4-openssl-dev
 
       - name: Install perl dependencies
         uses: shogo82148/actions-setup-perl@v1
