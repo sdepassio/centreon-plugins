@@ -22,7 +22,7 @@ jobs:
         run: |
           apt update
           apt upgrade -y
-          apt-get install -y curl snmp
+          apt-get install -y libcurl4-openssl-dev snmp
       - name: curl
         run: curl nginxservice:8080
       - name: snmpwalk
