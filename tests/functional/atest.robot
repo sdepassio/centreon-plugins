@@ -5,4 +5,4 @@ Documentation       A test
 First test
     [Documentation]    1 test
     [Tags]    test
-    Log    test
+    Log To Console    test
