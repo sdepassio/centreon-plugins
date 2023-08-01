@@ -7,11 +7,12 @@ Library             String
 
 Suite Setup         Start Mockoon
 Suite Teardown      Stop Mockoon
+Test Timeout        120s
 
 
 *** Variables ***
-${CENTREON_PLUGINS}             ${CURDIR}${/}..${/}..${/}src${/}centreon_plugins.pl
-${MOCKOON_JSON}                 ${CURDIR}${/}..${/}resources${/}mockoon${/}cloud-aws-cloudtrail.json
+${CENTREON_PLUGINS}             ${CURDIR}${/}..${/}..${/}..${/}src${/}centreon_plugins.pl
+${MOCKOON_JSON}                 ${CURDIR}${/}..${/}..${/}resources${/}mockoon${/}cloud-aws-cloudtrail.json
 
 ${CMD}                          perl ${CENTREON_PLUGINS} --plugin=cloud::aws::cloudtrail::plugin --custommode=paws --region=eu-west --aws-secret-key=secret --aws-access-key=key
 
@@ -162,9 +163,8 @@ AWS CloudTrail check trail status
 AWS CloudTrail count events
     [Documentation]    Check AWS CloudTrail count events
     [Tags]    cloud    aws    cloudtrail
-    Log To Console    Step 0
+    Log To Console    Run AWS CloudTrail count events 
     FOR    ${countevents_value}    IN    @{countevents_values}
-        Log Console    Step 1
         ${command} =    Catenate
         ...    ${CMD}
         ...    --mode=countevents
@@ -199,7 +199,7 @@ AWS CloudTrail count events
 
 *** Keywords ***
 Start Mockoon
-    Log To Console    Start mockoon
+    Log To Console    Start Ockoon
     ${executionresult} =    Run Process
     ...    mockoon-cli
     ...    start
@@ -208,12 +208,13 @@ Start Mockoon
     ...    --port
     ...    3000
     ...    --pname
-    ...    azure-policyinsights
+    ...    aws-cloudtrail
     Should Be Empty    ${executionresult.stderr}
+    Log To Console    Mockoon started
 
 Stop Mockoon
     ${executionresult} =    Run Process
     ...    mockoon-cli
     ...    stop
-    ...    mockoon-azure-policyinsights
+    ...    mockoon-aws-cloudtrail
     Should Be Empty    ${executionresult.stderr}
