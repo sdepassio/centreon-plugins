@@ -162,7 +162,7 @@ AWS CloudTrail check trail status
 AWS CloudTrail count events
     [Documentation]    Check AWS CloudTrail count events
     [Tags]    cloud    aws    cloudtrail
-    Log Console    Step 0
+    Log To Console    Step 0
     FOR    ${countevents_value}    IN    @{countevents_values}
         Log Console    Step 1
         ${command} =    Catenate
@@ -199,6 +199,7 @@ AWS CloudTrail count events
 
 *** Keywords ***
 Start Mockoon
+    Log To Console    Start mockoon
     ${executionresult} =    Run Process
     ...    mockoon-cli
     ...    start
