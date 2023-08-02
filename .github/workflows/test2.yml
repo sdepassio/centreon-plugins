@@ -1,0 +1,31 @@
+name: test-snmpsim
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  docker-service:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install libs
+        run: |
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt-get install -y libcurl4-openssl-dev snmp
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: install snmpsim
+        run: pip3.11 install https://github.com/inexio/snmpsim/archive/master.zip
+
+      - name: start snmpsim
+        run: snmpsim-command-responder --data-dir=tests/resources/snmp/ --agent-udpv4-endpoint=127.0.0.1:1024
+
+      - name: snmpwalk
+        run: snmpwalk -v2c -c public 127.0.0.1:1024
