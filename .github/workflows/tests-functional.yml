@@ -33,7 +33,7 @@ jobs:
           node-version: 16
 
       - name: Install Mockoon CLI
-        run: npm install -g -D @mockoon/cli
+        run: npm install -g -D @mockoon/cli@3.1.0
 
       - name: Install perl dependencies
         uses: shogo82148/actions-setup-perl@v1
