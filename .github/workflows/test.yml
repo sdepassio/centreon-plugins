@@ -23,10 +23,10 @@ jobs:
           apt update
           apt upgrade -y
           apt-get install -y libcurl4-openssl-dev snmp
+      - name: snmpwalk
+        run: snmpwalk -v2c -c public 127.0.0.1:161
       - name: curl
         run: |
           apt install curl -y
           curl --version
-          curl nginxservice:8080
-      - name: snmpwalk
-        run: snmpwalk -v2c -c public snmpsimservice:161
+          curl 127.0.0.1:8080
