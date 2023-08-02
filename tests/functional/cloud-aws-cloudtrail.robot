@@ -7,7 +7,7 @@ Library             String
 
 Suite Setup         Start Mockoon
 Suite Teardown      Stop Mockoon
-Test Timeout        120s
+Test Timeout        2 minutes
 
 
 *** Variables ***
@@ -150,7 +150,7 @@ ${CMD}                          perl ${CENTREON_PLUGINS} --plugin=cloud::aws::cl
 AWS CloudTrail check trail status
     [Documentation]    Check AWS CloudTrail trail status
     [Tags]    cloud    aws    cloudtrail
-    Skip
+    Log To Console    Run AWS CloudTrail trail status
     FOR    ${checktrailstatus_value}    IN    @{checktrailstatus_values}
         ${output} =    Run
         ...    ${CMD} --mode=checktrailstatus --endpoint=http://localhost:3000/cloudtrail/gettrailstatus/${checktrailstatus_value.trailstatus} --trail-name=${checktrailstatus_value.trailname}
@@ -213,6 +213,7 @@ Start Mockoon
     Log To Console    Mockoon started
 
 Stop Mockoon
+    Log To Console    Stop Mockoon
     ${executionresult} =    Run Process
     ...    mockoon-cli
     ...    stop
