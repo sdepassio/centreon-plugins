@@ -6,7 +6,6 @@ on:
 jobs:
   docker-service:
     runs-on: ubuntu-22.04
-    container: ubuntu
     services:
       nginxservice:
         image: nginx
