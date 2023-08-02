@@ -19,9 +19,9 @@ jobs:
     steps:
       - name: install
         run: |
-          apt update
-          apt upgrade -y
-          apt-get install -y libcurl4-openssl-dev snmp
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt-get install -y libcurl4-openssl-dev snmp
       - name: snmpwalk
         run: snmpwalk -v2c -c public 127.0.0.1:161
       - name: curl
