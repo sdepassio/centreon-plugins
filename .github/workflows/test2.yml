@@ -5,24 +5,29 @@ on:
 
 jobs:
   snmpsim-local:
-    runs-on: ubuntu-23.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
 
       - name: install libs
-        run: sudo apt-get install -y libcurl4-openssl-dev snmp
+        run: |
+          sudo apt update -y
+          sudo apt upgrade -y
+          sudo apt-get install -y libcurl4-openssl-dev snmp
 
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
-      - name: install snmpsim
-        run: pip3.10 install https://github.com/inexio/snmpsim/archive/master.zip
+      - name: Install snmpsim
+        run: |
+          pip3.11 install --upgrade pip
+          pip3.11 install https://github.com/lextudio/snmpsim/archive/master.zip
 
-      - name: start snmpsim
-        run: snmpsim-command-responder --data-dir=tests/resources/snmp/ --agent-udpv4-endpoint=127.0.0.1:1024
-
-      - name: snmpwalk
-        run: snmpwalk -v2c -c public 127.0.0.1:1024
+      - name: Start snmpsim + snmpwalk
+        run: |
+          snmpsim-command-responder --agent-udpv4-endpoint=127.0.0.1:1024 --process-user=root --process-group=nogroup &
+          snmpwalk -v2c -c mib2dev/tcp-mib 127.0.0.1:1024
+          snmpwalk -v2c -c mib2dev/tcp-mib 127.0.0.1:1024
