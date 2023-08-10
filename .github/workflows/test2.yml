@@ -28,5 +28,5 @@ jobs:
 
       - name: Start snmpsim + snmpwalk
         run: |
-          snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
+          sudo snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
