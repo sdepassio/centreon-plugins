@@ -20,12 +20,12 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.9'
 
       - name: Install snmpsim
         run: |
-          pip3.11 install pip wheel --upgrade
-          pip3.11 install snmpsim-lextudio
+          pip3.9 install pip wheel --upgrade
+          pip3.9 install snmpsim-lextudio
         shell: bash
 
       - name: Start snmpsim + snmpwalk
