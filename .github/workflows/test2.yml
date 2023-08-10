@@ -28,15 +28,9 @@ jobs:
           pip3.11 install snmpsim-lextudio
         shell: bash
 
-      - name: Snmpsim test
-        run: |
-          snmpsim-command-responder --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
-          snmpwalk -v2c -c public 127.0.0.1:2024
-        shell: bash
-
       - name: Start snmpsim + snmpwalk
         run: |
-          snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
+          cd tests/resources/snmp
+          snmpsim-command-responder --data-dir=. --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
         shell: bash
-
