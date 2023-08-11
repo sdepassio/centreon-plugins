@@ -26,22 +26,12 @@ jobs:
           sudo apt update
           sudo apt upgrade -y
           sudo apt-get install -y libcurl4-openssl-dev snmp
-        shell: bash
-
-      - name: Install Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.7'
-
-      - name: Install snmpsim
-        run: |
-          pip3.7 install pip --upgrade
-          pip3.7 install snmpsim-lextudio
+          sudo apt-get install -qqy snmpsim
         shell: bash
 
       - name: Start snmpsim + snmpwalk
         run: |
-          sudo adduser --system snmpsim
-          snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
+          sudo useradd snmp
+          snmpsimd --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
           snmpwalk -v2c -c public 127.0.0.1:2024
         shell: bash
