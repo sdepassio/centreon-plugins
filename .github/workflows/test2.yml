@@ -36,12 +36,12 @@ jobs:
       - name: Install snmpsim
         run: |
           pip3.11 install pip --upgrade
-          pip3.11 install snmpsim
+          pip3.11 install https://github.com/lextudio/snmpsim/archive/master.zip
         shell: bash
 
       - name: Start snmpsim + snmpwalk
         run: |
           sudo adduser --system snmpsim
-          snmpsimd.py --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
+          snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c public 127.0.0.1:2024
         shell: bash
