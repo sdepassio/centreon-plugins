@@ -42,6 +42,6 @@ jobs:
       - name: Start snmpsim + snmpwalk
         run: |
           cd tests/resources/snmp/
-          snmpsim-command-responder --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
+          snmpsim-command-responder --data-dir=. --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c public 127.0.0.1:2024
         shell: bash
