@@ -80,6 +80,7 @@ jobs:
 
       - name: Run Robot Framework SNMP tests
         run: |
+          sudo chmod 777 tests/resources/snmp
           snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
           robot tests/functional/snmp

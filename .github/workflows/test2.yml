@@ -1,7 +1,6 @@
 name: test-snmpsim
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   snmpsim-local:
