@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '.github/workflows/tests-functional.yml'
+      - '.github/workflows/test**'
       - 'src/**'
       - 'tests/functional/**'
       - 'tests/resources/mockoon/**'
@@ -23,7 +23,7 @@ jobs:
 
       - name: install libs
         run: |
-          sudo apt update -y
+          sudo apt update
           sudo apt upgrade -y
           sudo apt-get install -y libcurl4-openssl-dev snmp
         shell: bash
@@ -31,16 +31,17 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Install snmpsim
         run: |
-          pip3.9 install pip wheel --upgrade
-          pip3.9 install snmpsim-lextudio
+          pip3.11 install pip wheel --upgrade
+          pip3.11 install snmpsim-lextudio
         shell: bash
 
       - name: Start snmpsim + snmpwalk
         run: |
+          cd tests/resources/snmp/
           snmpsim-command-responder --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c public 127.0.0.1:2024
         shell: bash
