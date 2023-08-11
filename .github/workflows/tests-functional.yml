@@ -26,6 +26,7 @@ jobs:
           sudo apt update
           sudo apt upgrade -y
           sudo apt-get install -y libcurl4-openssl-dev snmp
+          sudo apt-get install -qqy snmpsim
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -65,11 +66,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Robot Framework and SNMP Simulator
+      - name: Install Robot Framework
         run: |
           pip3.11 install pip wheel --upgrade
           pip3.11 install robotframework
-          pip3.11 install https://github.com/lextudio/snmpsim/archive/master.zip
         shell: bash
 
       - name: Run Robot Framework API tests
@@ -80,7 +80,9 @@ jobs:
 
       - name: Run Robot Framework SNMP tests
         run: |
-          cp tests/resources/snmp/* /root/,snmpsim/data/
-          snmpsim-command-responder --data-dir=tests/resources/snmp --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
+          sudo useradd snmp
+          sudo mkdir -p /usr/snmpsim/data
+          sudo cp tests/resources/snmp/* /usr/snmpsim/data/
+          snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
           snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
           robot tests/functional/snmp
