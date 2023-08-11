@@ -36,13 +36,12 @@ jobs:
       - name: Install snmpsim
         run: |
           pip3.11 install pip wheel --upgrade
-          pip3.11 install snmpsim-lextudio
+          pip3.11 install https://github.com/inexio/snmpsim/archive/master.zip
         shell: bash
 
       - name: Start snmpsim + snmpwalk
         run: |
           cd tests/resources/snmp/
-          sudo setcap cap_net_raw+ep $(which python)
           snmpsim-command-responder --data-dir=. --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=root --process-group=nogroup &
           snmpwalk -v2c -c public 127.0.0.1:2024
         shell: bash
