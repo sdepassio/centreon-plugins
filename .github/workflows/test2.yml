@@ -36,7 +36,7 @@ jobs:
       - name: Install snmpsim
         run: |
           pip3.11 install pip --upgrade
-          pip3.11 install https://github.com/lextudio/snmpsim/archive/master.zip
+          pip3.11 install snmpsim-lextudio
         shell: bash
 
       - name: Start snmpsim + snmpwalk
