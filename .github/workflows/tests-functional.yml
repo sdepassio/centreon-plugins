@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt upgrade -y
-          sudo apt-get install -y libcurl4-openssl-dev libsnmp-perl
+          sudo apt-get install -y libcurl4-openssl-dev snmp libsnmp-perl
           sudo apt-get install -qqy snmpsim
 
       - name: Install Node.js
@@ -42,6 +42,7 @@ jobs:
           perl-version: '5.34'
           install-modules-with: cpm
           install-modules: |
+            Alien::SNMP
             DateTime
             Digest::MD5
             Encode
@@ -55,7 +56,6 @@ jobs:
             Net::Curl::Easy
             Paws
             POSIX
-            SNMP
             Storable
             URI
             URI::Encode
