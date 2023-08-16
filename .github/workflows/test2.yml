@@ -6,13 +6,6 @@ concurrency:
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/test**'
-      - 'src/**'
-      - 'tests/functional/**'
-      - 'tests/resources/mockoon/**'
-      - 'tests/resources/snmp/**'
 
 jobs:
   snmpsim-local:
