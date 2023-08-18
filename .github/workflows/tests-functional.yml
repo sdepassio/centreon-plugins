@@ -42,23 +42,11 @@ jobs:
           perl-version: '5.34'
           install-modules-with: cpm
           install-modules: |
+            Alien::SNMP
             DateTime
-            Digest::MD5
-            Encode
-            ExtUtils::PkgConfig
-            HTTP::ProxyPAC
-            IO::Socket::SSL
-            JSON::XS
-            LWP::Protocol::https
-            LWP::UserAgent
-            MIME::Base64
             Net::Curl::Easy
-            Net::SNMP
             Paws
-            POSIX
-            SNMP
-            Storable
-            URI
+            Net::SNMP
             URI::Encode
             XML::LibXML
 
