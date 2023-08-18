@@ -52,11 +52,11 @@ jobs:
           sudo chmod 777 /var/lib/centreon/centplugins/
           robot tests/functional/api
 
-      - name: Start snmpsim + snmpwalk
+      - name: Run Robot Framework SNMP tests
         run: |
           sudo useradd snmp
           sudo mkdir -p /usr/snmpsim/data
           sudo cp tests/resources/snmp/* /usr/snmpsim/data/
           snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
-          snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
+          robot tests/functional/snmp
         shell: bash
