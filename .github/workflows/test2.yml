@@ -6,7 +6,6 @@ concurrency:
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   snmpsim-local:

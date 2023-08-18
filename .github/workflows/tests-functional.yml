@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt upgrade -y
-          sudo apt-get install -y libcurl4-openssl-dev snmp libsnmp-perl
+          sudo apt-get install -y libcurl4-openssl-dev snmp libsnmp-perl libnet-snmp-perl
           sudo apt-get install -qqy snmpsim
 
       - name: Install Node.js
@@ -42,7 +42,6 @@ jobs:
           perl-version: '5.34'
           install-modules-with: cpm
           install-modules: |
-            Alien::SNMP
             DateTime
             Digest::MD5
             Encode
@@ -78,11 +77,20 @@ jobs:
           sudo chmod 777 /var/lib/centreon/centplugins/
           robot tests/functional/api
 
-      - name: Run Robot Framework SNMP tests
+      - name: SNMP walk
         run: |
           sudo useradd snmp
           sudo mkdir -p /usr/snmpsim/data
           sudo cp tests/resources/snmp/* /usr/snmpsim/data/
           snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
           snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
+
+      - name: SNMP plugin
+        run: |
+          snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
+          perl src/centreon_plugins.pl --plugin=os::linux::snmp::plugin --mode=list-diskio --hostname=127.0.0.1 --snmp-version=2 --snmp-community=os_linux_snmp_plugin --snmp-port=2024 --disco-show
+
+      - name: Run Robot Framework SNMP tests
+        run: |
+          snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
           robot tests/functional/snmp
