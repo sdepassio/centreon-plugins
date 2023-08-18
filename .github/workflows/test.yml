@@ -1,30 +1,50 @@
-name: test-container
+name: perl-modules
+
 on:
   workflow_dispatch:
+  push:
 
 jobs:
-  docker-service:
+  perl-modules:
     runs-on: ubuntu-22.04
-    services:
-      nginxservice:
-        image: nginx
-        ports:
-          - 8080:80/tcp
-      snmpsimservice:
-        image: vklidu/snmpsim
-        ports:
-          - 161:161/udp
 
     steps:
-      - name: install
+      - uses: actions/checkout@v3
+
+      - name: Install libs
         run: |
-          sudo apt update
-          sudo apt upgrade -y
-          sudo apt-get install -y libcurl4-openssl-dev snmp
-      - name: snmpwalk
-        run: snmpwalk -v2c -c public 127.0.0.1:161
-      - name: curl
+          sudo apt-get install -y libcurl4-openssl-dev
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Mockoon CLI
+        run: npm install -g -D @mockoon/cli@3.1.0
+
+      - name: Install perl dependencies
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.34'
+          install-modules-with: cpm
+          install-modules: |
+            DateTime
+            Net::Curl::Easy
+            Paws
+            URI::Encode
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Robot Framework
+        run: pip3.11 install robotframework
+        shell: bash
+
+      - name: Run Robot Framework API tests
         run: |
-          apt install curl -y
-          curl --version
-          curl 127.0.0.1:8080
+          sudo mkdir -p /var/lib/centreon/centplugins/
+          sudo chmod 777 /var/lib/centreon/centplugins/
+          robot tests/functional/api

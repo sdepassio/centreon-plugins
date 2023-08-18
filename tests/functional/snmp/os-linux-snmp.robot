@@ -154,5 +154,5 @@ Linux SNMP list diskio devices
         Should Be Equal As Integers
         ...    ${list_diskio_test.nbresults}
         ...    ${nb_results}
-        ...    msg=Wrong output result for list diskio devices: ${list_diskio_test}
+        ...    msg=Wrong output result for list diskio devices: ${list_diskio_test}.${\n}Command output:${\n}${output}
     END
