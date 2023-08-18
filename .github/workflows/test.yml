@@ -32,10 +32,13 @@ jobs:
           perl-version: '5.34'
           install-modules-with: cpm
           install-modules: |
+            Alien::SNMP
             DateTime
             Net::Curl::Easy
             Paws
+            Net::SNMP
             URI::Encode
+            XML::LibXML
 
       - name: Install Python
         uses: actions/setup-python@v4
@@ -58,5 +61,5 @@ jobs:
           sudo mkdir -p /usr/snmpsim/data
           sudo cp tests/resources/snmp/* /usr/snmpsim/data/
           snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
-          robot tests/functional/snmp
+          perl src/centreon_plugins.pl --plugin=os::linux::snmp::plugin --mode=list-diskio --hostname=127.0.0.1 --snmp-version=2 --snmp-community=os_linux_snmp_plugin --snmp-port=2024 --disco-show
         shell: bash
