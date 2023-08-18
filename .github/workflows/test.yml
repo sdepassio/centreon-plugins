@@ -13,7 +13,10 @@ jobs:
 
       - name: Install libs
         run: |
-          sudo apt-get install -y libcurl4-openssl-dev
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt-get install -y libcurl4-openssl-dev snmp
+          sudo apt-get install -qqy snmpsim
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -48,3 +51,12 @@ jobs:
           sudo mkdir -p /var/lib/centreon/centplugins/
           sudo chmod 777 /var/lib/centreon/centplugins/
           robot tests/functional/api
+
+      - name: Start snmpsim + snmpwalk
+        run: |
+          sudo useradd snmp
+          sudo mkdir -p /usr/snmpsim/data
+          sudo cp tests/resources/snmp/* /usr/snmpsim/data/
+          snmpsimd --agent-udpv4-endpoint=127.0.0.1:2024 --process-user=snmp --process-group=snmp &
+          snmpwalk -v2c -c os_linux_snmp_plugin 127.0.0.1:2024
+        shell: bash
