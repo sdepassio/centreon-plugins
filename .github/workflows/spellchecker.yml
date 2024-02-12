@@ -16,7 +16,7 @@ jobs:
   check-labels:
     runs-on: ubuntu-22.04
     outputs:
-      run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
+      run_jobs: ${{ steps.set_output.outputs.run_jobs }}
 
     steps:
       - name: Check label
@@ -25,10 +25,10 @@ jobs:
           echo $labels
           if [[ $labels == *'test'* ]]; then
             echo "end"
-            echo "::set-output name=run_jobs::false"
+            echo "run_jobs='false'" >> $GITHUB_OUTPUT
           else
             echo "continue"
-            echo "::set-output name=run_jobs::true"
+            echo "run_jobs='true'" >> $GITHUB_OUTPUT
           fi
         shell: bash
         env:
@@ -39,7 +39,7 @@ jobs:
 
   pod-spell-check:
     needs: [check-labels]
-    if: needs.check-labels.outputs.run_rest_jobs == 'true'
+    if: needs.check-labels.outputs.run_jobs == 'true'
     runs-on: ubuntu-22.04
 
     steps:
