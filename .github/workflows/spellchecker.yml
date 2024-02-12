@@ -21,7 +21,7 @@ jobs:
         run: |
           labels="$(gh api repos/$OWNER/$REPO_NAME/pulls/$PULL_REQUEST_NUMBER --jq '.labels.[].name')"
           echo "labels=$(echo $labels)" >> $GITHUB_OUTPUT
-          if [[ contains($labels, 'test') ]]; then
+          if [[ ${labels[@]} =~ 'test' ]]; then
             exit 0
           fi
         shell: bash
