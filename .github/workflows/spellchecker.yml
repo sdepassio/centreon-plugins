@@ -44,7 +44,6 @@ jobs:
 
   pod-spell-check:
     needs: [check-labels]
-    if: ${{ needs.check-labels.outputs.continue == 'true' }}
     runs-on: ubuntu-22.04
 
     steps:
