@@ -13,8 +13,10 @@ on:
       - '.github/scripts/pod_spell_check.t'
 
 jobs:
-  pod-spell-check:
+  check-labels:
     runs-on: ubuntu-22.04
+    outputs:
+      run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
 
     steps:
       - name: Check label
@@ -22,14 +24,8 @@ jobs:
           labels="$(gh api repos/$OWNER/$REPO_NAME/pulls/$PULL_REQUEST_NUMBER --jq '.labels.[].name')"
           echo $labels
           if [[ ${labels[@]} =~ 'test' ]]; then
-            echo "if1"
-            exit 0
+            echo "::set-output name=run_jobs::false"
           fi
-          if [[ $labels == *"test"* ]]; then
-            echo "if2"
-            exit 0
-          fi
-          echo "no if"
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,6 +33,12 @@ jobs:
           REPO_NAME: ${{ github.event.repository.name }}
           PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
 
+  pod-spell-check:
+    needs: [check-labels]
+    if: needs.check-labels.outputs.run_rest_jobs == 'true'
+    runs-on: ubuntu-22.04
+
+    steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
