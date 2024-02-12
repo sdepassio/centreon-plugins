@@ -14,10 +14,23 @@ on:
 
 jobs:
   pod-spell-check:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'do-not-spellcheck') }}
     runs-on: ubuntu-22.04
 
     steps:
+      - name: Check label
+        run: |
+          labels="$(gh api repos/$OWNER/$REPO_NAME/pulls/$PULL_REQUEST_NUMBER --jq '.labels.[].name')"
+          echo "labels=$(echo $labels)" >> $GITHUB_OUTPUT
+          if [[ contains($labels, 'test') ]]; then
+            exit 0
+          fi
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50 # v2.11.1
