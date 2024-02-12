@@ -23,7 +23,7 @@ jobs:
         run: |
           labels="$(gh api repos/$OWNER/$REPO_NAME/pulls/$PULL_REQUEST_NUMBER --jq '.labels.[].name')"
           echo $labels
-          if [[ ${labels[@]} =~ 'test' ]]; then
+          if [[ $labels == *'test'* ]]; then
             echo "::set-output name=run_jobs::false"
           fi
         shell: bash
