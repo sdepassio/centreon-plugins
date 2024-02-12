@@ -20,15 +20,16 @@ jobs:
 
     steps:
       - name: Check label
+        id: check_label
         run: |
           labels="$(gh api repos/$OWNER/$REPO_NAME/pulls/$PULL_REQUEST_NUMBER --jq '.labels.[].name')"
           echo $labels
           if [[ $labels == *'test'* ]]; then
             echo "end"
-            echo "run_jobs='false'" >> $GITHUB_OUTPUT
+            echo "run_jobs=false" >> $GITHUB_OUTPUT
           else
             echo "continue"
-            echo "run_jobs='true'" >> $GITHUB_OUTPUT
+            echo "run_jobs=true" >> $GITHUB_OUTPUT
           fi
         shell: bash
         env:
@@ -36,6 +37,9 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
           PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+      - name: Echo
+        run: echo ${{steps.check_label.outputs.run_jobs}}
+        shell: bash
 
   pod-spell-check:
     needs: [check-labels]
