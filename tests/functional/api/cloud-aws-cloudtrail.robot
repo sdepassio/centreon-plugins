@@ -207,11 +207,13 @@ Start Mockoon
     ...    --pname
     ...    aws-cloudtrail
     ...    &
-    Log To Console    ${result}
+    Log To Console    Output: .${result.stdout}
+    Log To Console    Error: .${result.stderr}
 
 Stop Mockoon
     ${result}    Run Process
     ...    mockoon-cli
     ...    stop
     ...    mockoon-aws-cloudtrail
-    Log To Console    ${result}
+    Log To Console    Output: .${result.stdout}
+    Log To Console    Error: .${result.stderr}

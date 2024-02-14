@@ -85,11 +85,13 @@ Start Mockoon
     ...    --pname
     ...    azure-policyinsights
     ...    &
-    Log To Console    ${result}
+    Log To Console    Output: .${result.stdout}
+    Log To Console    Error: .${result.stderr}
 
 Stop Mockoon
     ${result}    Run Process
     ...    mockoon-cli
     ...    stop
     ...    mockoon-azure-policyinsights
-    Log To Console    ${result}
+    Log To Console    Output: .${result.stdout}
+    Log To Console    Error: .${result.stderr}
