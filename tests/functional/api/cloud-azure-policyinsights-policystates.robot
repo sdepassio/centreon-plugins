@@ -84,7 +84,6 @@ Start Mockoon
     ...    3000
     ...    --pname
     ...    azure-policyinsights
-    ...    &
     Log To Console    Output: .${result.stdout}
     Log To Console    Error: .${result.stderr}
 
