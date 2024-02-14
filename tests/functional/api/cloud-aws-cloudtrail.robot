@@ -197,7 +197,7 @@ AWS CloudTrail count events
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Start Process
+    ${result}    Run Process
     ...    mockoon-cli
     ...    start
     ...    --data
@@ -206,11 +206,12 @@ Start Mockoon
     ...    3000
     ...    --pname
     ...    aws-cloudtrail
-    Wait For Process    ${process}
+    ...    &
+    Log To Console    ${result}
 
 Stop Mockoon
-    ${process}    Start Process
+    ${result}    Run Process
     ...    mockoon-cli
     ...    stop
     ...    mockoon-aws-cloudtrail
-    Wait For Process    ${process}
+    Log To Console    ${result}

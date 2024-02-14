@@ -75,7 +75,7 @@ Azure PolicyInsights PolicyStates compliance
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Start Process
+    ${result}    Run Process
     ...    mockoon-cli
     ...    start
     ...    --data
@@ -84,11 +84,12 @@ Start Mockoon
     ...    3000
     ...    --pname
     ...    azure-policyinsights
-    Wait For Process    ${process}
+    ...    &
+    Log To Console    ${result}
 
 Stop Mockoon
-    ${process}    Start Process
+    ${result}    Run Process
     ...    mockoon-cli
     ...    stop
     ...    mockoon-azure-policyinsights
-    Wait For Process    ${process}
+    Log To Console    ${result}
