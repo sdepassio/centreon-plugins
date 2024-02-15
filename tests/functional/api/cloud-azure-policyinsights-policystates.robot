@@ -5,8 +5,8 @@ Library             OperatingSystem
 Library             Process
 Library             String
 
-Suite Setup         Start Mockoon
-Suite Teardown      Stop Mockoon
+#Suite Setup         Start Mockoon
+#Suite Teardown      Stop Mockoon
 Test Timeout        120s
 
 

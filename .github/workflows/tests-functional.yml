@@ -65,6 +65,26 @@ jobs:
           pip3.11 install RobotFramework-Examples
         shell: bash
 
+      - name: Run Mockoon CLI
+        uses: mockoon/cli-action@v2
+        with:
+          # Mockoon CLI version, default to 'latest'
+          version: "6.2.0"
+          # Mockoon local data file or URL
+          data-file: "./tests/resources/mockoon/cloud-aws-cloudtrail.json"
+          # port, default to 3000
+          port: 3000
+
+      - name: Run Mockoon CLI
+        uses: mockoon/cli-action@v2
+        with:
+          # Mockoon CLI version, default to 'latest'
+          version: "6.2.0"
+          # Mockoon local data file or URL
+          data-file: "./tests/resources/mockoon/cloud-azure-policyinsights-policystates.json"
+          # port, default to 3000
+          port: 3001
+
       - name: Run Robot Framework API tests
         run: |
           sudo mkdir -p /var/lib/centreon/centplugins/
