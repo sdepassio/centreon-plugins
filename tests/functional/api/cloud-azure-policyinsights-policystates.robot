@@ -15,7 +15,7 @@ ${CENTREON_PLUGINS}     ${CURDIR}${/}..${/}..${/}..${/}src${/}centreon_plugins.p
 ${MOCKOON_JSON}         ${CURDIR}${/}..${/}..${/}resources${/}mockoon${/}cloud-azure-policyinsights-policystates.json
 
 ${LOGIN_ENDPOINT}       http://localhost:3001/login
-${CMD}                  perl ${CENTREON_PLUGINS} --plugin=cloud::azure::policyinsights::policystates::plugin --subscription=subscription --tenant=tenant --client-id=client_id --client-secret=secret --login-endpoint=${LOGIN_ENDPOINT}
+${CMD}                  perl ${CENTREON_PLUGINS} --plugin=cloud::azure::policyinsights::policystates::plugin --subscription=subscription --tenant=tenant --client-id=client_id --client-secret=secret --login-endpoint=${LOGIN_ENDPOINT} --debug
 
 &{compliance_value1}
 ...                     endpoint=http://localhost:3001/ok
