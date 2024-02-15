@@ -207,4 +207,5 @@ Start Mockoon
     ...    alias=aws-cloudtrail
 
 Stop Mockoon
-    Terminate Process    aws-cloudtrail
+    Switch Process    aws-cloudtrail
+    Terminate Process

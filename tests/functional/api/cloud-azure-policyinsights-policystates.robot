@@ -85,4 +85,5 @@ Start Mockoon
     ...    alias=azure-policyinsights
 
 Stop Mockoon
-    Terminate Process    azure-policyinsights
+    Switch Process    azure-policyinsights
+    Terminate Process
