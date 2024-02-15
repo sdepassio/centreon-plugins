@@ -197,22 +197,14 @@ AWS CloudTrail count events
 
 *** Keywords ***
 Start Mockoon
-    ${result}    Run Process
+    Start Process
     ...    mockoon-cli
     ...    start
     ...    --data
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
-    ...    --pname
-    ...    aws-cloudtrail
-    Log To Console    Output: .${result.stdout}
-    Log To Console    Error: .${result.stderr}
+    ...    alias=aws-cloudtrail
 
 Stop Mockoon
-    ${result}    Run Process
-    ...    mockoon-cli
-    ...    stop
-    ...    mockoon-aws-cloudtrail
-    Log To Console    Output: .${result.stdout}
-    Log To Console    Error: .${result.stderr}
+    Terminate Process    aws-cloudtrail

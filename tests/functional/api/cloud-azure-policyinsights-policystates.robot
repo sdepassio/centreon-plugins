@@ -75,22 +75,14 @@ Azure PolicyInsights PolicyStates compliance
 
 *** Keywords ***
 Start Mockoon
-    ${result}    Run Process
+    Start Process
     ...    mockoon-cli
     ...    start
     ...    --data
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
-    ...    --pname
-    ...    azure-policyinsights
-    Log To Console    Output: .${result.stdout}
-    Log To Console    Error: .${result.stderr}
+    ...    alias=azure-policyinsights
 
 Stop Mockoon
-    ${result}    Run Process
-    ...    mockoon-cli
-    ...    stop
-    ...    mockoon-azure-policyinsights
-    Log To Console    Output: .${result.stdout}
-    Log To Console    Error: .${result.stderr}
+    Terminate Process    azure-policyinsights
