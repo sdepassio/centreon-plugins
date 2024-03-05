@@ -68,6 +68,7 @@ Start Mockoon
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
+    ...    &
 
 Stop Mockoon
     ${process}    Start Process
