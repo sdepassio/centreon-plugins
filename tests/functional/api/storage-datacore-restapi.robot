@@ -61,12 +61,5 @@ Datacore check status monitor
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Run
-    ...    mockoon-cli
-    ...    start
-    ...    --data
-    ...    ${MOCKOON_JSON}
-    ...    --port
-    ...    3000
-    ...    &
+    ${process}    Run    mockoon-cli start --data ${MOCKOON_JSON} --port 3000 &
     Sleep    5s
