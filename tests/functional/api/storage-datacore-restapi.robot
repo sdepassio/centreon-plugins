@@ -7,14 +7,14 @@ Library             Process
 Library             String
 
 Suite Setup         Start Mockoon
-Suite Teardown      Stop Mockoon
+#Suite Teardown      Stop Mockoon
 Test Timeout        120s
 
 *** Variables ***
 ${CENTREON_PLUGINS}     ${CURDIR}${/}..${/}..${/}..${/}src${/}centreon_plugins.pl
 ${MOCKOON_JSON}         ${CURDIR}${/}..${/}..${/}resources${/}mockoon${/}storage-datacore-restapi.json
 
-${CMD}                  perl ${CENTREON_PLUGINS} --plugin=storage::datacore::restapi::plugin --password=pass --username=user --port=3000 --hostname=127.0.0.1 --proto=http
+${CMD}                  perl ${CENTREON_PLUGINS} --plugin=storage::datacore::restapi::plugin --password=pass --username=user --port=3002 --hostname=127.0.0.1 --proto=http
 
 
 *** Test Cases ***
@@ -62,16 +62,15 @@ Datacore check status monitor
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Start Process
+    ${process}    Run Process
     ...    mockoon-cli
     ...    start
     ...    --data
     ...    ${MOCKOON_JSON}
     ...    --port
-    ...    3000
+    ...    3002
     ...    --pname
     ...    datacore-rest-api
-    Wait For Process    ${process}
 
 Stop Mockoon
     ${process}    Start Process
