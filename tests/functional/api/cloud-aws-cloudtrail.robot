@@ -6,7 +6,7 @@ Library             Process
 Library             String
 
 Suite Setup         Start Mockoon
-#Suite Teardown      Stop Mockoon
+Suite Teardown      Stop Mockoon
 Test Timeout        120s
 
 
@@ -197,19 +197,14 @@ AWS CloudTrail count events
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Run Process
+    ${process}    Start Process
     ...    mockoon-cli
     ...    start
     ...    --data
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
-    ...    --pname
-    ...    aws-cloudtrail
+    Sleep    5s
 
 Stop Mockoon
-    ${process}    Start Process
-    ...    mockoon-cli
-    ...    stop
-    ...    mockoon-aws-cloudtrail
-    Wait For Process    ${process}
+    Terminate All Processes

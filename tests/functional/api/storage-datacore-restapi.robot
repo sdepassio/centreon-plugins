@@ -7,6 +7,7 @@ Library             Process
 Library             String
 
 Suite Setup         Start Mockoon
+Suite Teardown      Stop Mockoon
 Test Timeout        120s
 
 *** Variables ***
@@ -66,3 +67,6 @@ Start Mockoon
     ...    --port
     ...    3000
     Sleep    5s
+
+Stop Mockoon
+    Terminate All Processes

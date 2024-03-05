@@ -6,6 +6,7 @@ Library             Process
 Library             String
 
 Suite Setup         Start Mockoon
+Suite Teardown      Stop Mockoon
 Test Timeout        120s
 
 
@@ -74,19 +75,14 @@ Azure PolicyInsights PolicyStates compliance
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Run Process
+    ${process}    Start Process
     ...    mockoon-cli
     ...    start
     ...    --data
     ...    ${MOCKOON_JSON}
     ...    --port
-    ...    3001
-    ...    --pname
-    ...    azure-policyinsights
+    ...    3000
+    Sleep    5s
 
 Stop Mockoon
-    ${process}    Start Process
-    ...    mockoon-cli
-    ...    stop
-    ...    mockoon-azure-policyinsights
-    Wait For Process    ${process}
+    Terminate All Processes
