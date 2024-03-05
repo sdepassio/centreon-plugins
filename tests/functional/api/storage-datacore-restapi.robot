@@ -6,7 +6,7 @@ Library             OperatingSystem
 Library             Process
 Library             String
 
-#Suite Setup         Start Mockoon
+Suite Setup         Start Mockoon
 Test Timeout        120s
 
 *** Variables ***
@@ -61,7 +61,7 @@ Datacore check status monitor
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Run Process
+    ${process}    Run
     ...    mockoon-cli
     ...    start
     ...    --data
@@ -69,10 +69,4 @@ Start Mockoon
     ...    --port
     ...    3000
     ...    &
-
-Stop Mockoon
-    ${process}    Start Process
-    ...    mockoon-cli
-    ...    stop
-    ...    datacore-rest-api
-    Wait For Process    ${process}
+    Sleep    5s
