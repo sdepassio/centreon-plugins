@@ -68,8 +68,6 @@ Start Mockoon
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
-    ...    --pname
-    ...    datacore-rest-api
 
 Stop Mockoon
     ${process}    Start Process
