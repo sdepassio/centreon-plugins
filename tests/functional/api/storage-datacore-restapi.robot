@@ -65,3 +65,4 @@ Start Mockoon
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
+    Sleep    5s
