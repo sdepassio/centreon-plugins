@@ -6,7 +6,7 @@ Library             OperatingSystem
 Library             Process
 Library             String
 
-Suite Setup         Start Mockoon
+#Suite Setup         Start Mockoon
 Test Timeout        120s
 
 *** Variables ***
