@@ -60,7 +60,7 @@ Datacore check status monitor
     ...    Wrong output result for status monitor :\n${output} \nresult:\n${result}\n\n
 
     Examples:    result   --
-        ...    CRITICAL: 'State of HostVM2' status : 'Critical', message is 'Connected'${SPACE}
+        ...    CRITICAL: 'State of HostVM2' status : 'Critical', message is 'Connected'
 
 *** Keywords ***
 Start Mockoon
