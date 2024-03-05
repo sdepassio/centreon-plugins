@@ -66,6 +66,7 @@ Azure PolicyInsights PolicyStates compliance
             ${command}    Catenate    ${command}    --resource-type=${compliance_value.resourcetype}
         END
         ${output}    Run    ${command}
+        ${output}    Strip String    ${output}
         Should Be Equal As Strings
         ...    ${output}
         ...    ${compliance_value.result}

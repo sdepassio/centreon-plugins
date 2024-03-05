@@ -23,6 +23,7 @@ Datacore check pool usage
     [Tags]    storage    api
     ${output}    Run
     ...    ${CMD} --mode=pool-usage --critical-oversubscribed=${critical-oversubscribed} --warning-oversubscribed=${warning-oversubscribed} --warning-bytesallocatedpercentage=${warning-bytesallocatedpercentage} --critical-bytesallocatedpercentage=${critical-bytesallocatedpercentage} --pool-id=B5C140F5-6B13-4CAD-AF9D-F7C4172B3A1D:{4dec1b5a-2577-11e5-80c3-00155d651622}
+    ${output}    Strip String    ${output}
     Should Be Equal As Strings
     ...    ${output}
     ...    ${result}
@@ -37,6 +38,7 @@ Datacore check alert count
     [Tags]    storage    api
     ${output}    Run
     ...    ${CMD} --mode=alerts-count --warning-error=${warning-error} --critical-error=${critical-error} --warning-warning=${warning-warning} --critical-warning=${critical-warning}
+    ${output}    Strip String    ${output}
     Should Be Equal As Strings
     ...    ${output}
     ...    ${result}
@@ -51,6 +53,7 @@ Datacore check status monitor
     [Tags]    storage    api
     ${output}    Run
     ...    ${CMD} --mode=status-monitor
+    ${output}    Strip String    ${output}
     Should Be Equal As Strings
     ...    ${output}
     ...    ${result}

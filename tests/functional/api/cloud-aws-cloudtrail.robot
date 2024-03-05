@@ -153,6 +153,7 @@ AWS CloudTrail check trail status
     FOR    ${checktrailstatus_value}    IN    @{checktrailstatus_values}
         ${output}    Run
         ...    ${CMD} --mode=checktrailstatus --endpoint=http://localhost:3000/cloudtrail/gettrailstatus/${checktrailstatus_value.trailstatus} --trail-name=${checktrailstatus_value.trailname}
+        ${output}    Strip String    ${output}
         Should Be Equal As Strings
         ...    ${output}
         ...    ${checktrailstatus_value.result}
@@ -188,6 +189,7 @@ AWS CloudTrail count events
             ${command}    Catenate    ${command}    --critical-count=${countevents_value.criticalcount}
         END
         ${output}    Run    ${command}
+        ${output}    Strip String    ${output}
         Should Be Equal As Strings
         ...    ${output}
         ...    ${countevents_value.result}
