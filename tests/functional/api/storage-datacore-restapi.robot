@@ -24,7 +24,6 @@ Datacore check pool usage
     ...    ${CMD} --mode=pool-usage --critical-oversubscribed=${critical-oversubscribed} --warning-oversubscribed=${warning-oversubscribed} --warning-bytesallocatedpercentage=${warning-bytesallocatedpercentage} --critical-bytesallocatedpercentage=${critical-bytesallocatedpercentage} --pool-id=B5C140F5-6B13-4CAD-AF9D-F7C4172B3A1D:{4dec1b5a-2577-11e5-80c3-00155d651622}
     Should Be Equal As Strings
     ...    ${output}
-    ...    ${result}
     ...    Wrong output result for pool usage :\n\n ${output} \n\n ${result}\n\n
 
     Examples:    warning-bytesallocatedpercentage      critical-bytesallocatedpercentage    warning-oversubscribed      critical-oversubscribed    result   --
@@ -39,7 +38,6 @@ Datacore check alert count
     Should Be Equal As Strings
 
     ...    ${output}
-    ...    ${result}
     ...    Wrong output result for alert count :\n\n ${output} \n\n ${result}\n\n
 
     Examples:    warning-error    critical-error    warning-warning    critical-warning    result   --
@@ -53,7 +51,6 @@ Datacore check status monitor
     ...    ${CMD} --mode=status-monitor
     Should Be Equal As Strings
     ...    ${output}
-    ...    ${result}
     ...    Wrong output result for status monitor :\n${output} \nresult:\n${result}\n\n
 
     Examples:    result   --
@@ -61,5 +58,10 @@ Datacore check status monitor
 
 *** Keywords ***
 Start Mockoon
-    ${process}    Run    mockoon-cli start --data ${MOCKOON_JSON} --port 3000 &
-    Sleep    5s
+    ${process}    Start Process
+    ...    mockoon-cli
+    ...    start
+    ...    --data
+    ...    ${MOCKOON_JSON}
+    ...    --port
+    ...    3000
