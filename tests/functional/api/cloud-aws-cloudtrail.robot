@@ -206,6 +206,8 @@ Start Mockoon
     ...    ${MOCKOON_JSON}
     ...    --port
     ...    3000
+    ...    alias
+    ...    mockoon-aws
     Sleep    5s
 
 Stop Mockoon
