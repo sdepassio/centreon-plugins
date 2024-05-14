@@ -1,4 +1,5 @@
 --add-sysdesc
+--api-version
 --display-transform-dst
 --display-transform-src
 --exclude-fs
@@ -22,6 +23,8 @@ df
 eth
 Fortigate
 Fortinet
+HashiCorp
+hashicorpvault
 ifAlias
 ifDesc
 ifName
@@ -30,10 +33,12 @@ in-mcast
 in-ucast
 interface-dsl-name
 IpAddr
+ldap
 license-instances-usage-prct
 MBean
 NagVis
 OID
+okta
 oneaccess-sys-mib
 out-bcast
 out-mcast
@@ -52,6 +57,9 @@ topic-messages-inflighted
 total-oper-down
 total-oper-up
 uptime
+userpass
 VDSL2
 Veeam
+v1
+v2
 WSMAN
