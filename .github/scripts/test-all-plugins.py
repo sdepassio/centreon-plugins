@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import glob
+import shutil
 import subprocess
 import sys
 import os
@@ -56,9 +57,9 @@ def launch_snmp_sim():
 def install_plugin(plugin, archi):
     with open('/var/log/robot-plugins-installation-tests.log', "a") as outfile:
         if archi == "deb":
-            outfile.write("apt install -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' -y ./" + plugin.lower() + "*.deb\n")
+            outfile.write("apt-get install -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' -y ./" + plugin.lower() + "*.deb\n")
             output_status = (subprocess.run(
-                    "apt install -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' -y ./" + plugin.lower() + "*.deb",
+                    "apt-get install -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' -y ./" + plugin.lower() + "*.deb",
                 shell=True, check=False, stderr=subprocess.STDOUT, stdout=outfile)).returncode
         elif archi == "rpm":
             outfile.write("dnf install -y ./" + plugin + "*.rpm\n")
@@ -73,9 +74,9 @@ def install_plugin(plugin, archi):
 def remove_plugin(plugin, archi):
     with open('/var/log/robot-plugins-installation-tests.log', "a") as outfile:
         if archi == "deb":
-            outfile.write("apt -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' autoremove -y " + plugin.lower() + "\n")
+            outfile.write("apt-get -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' autoremove -y " + plugin.lower() + "\n")
             output_status = (subprocess.run(
-                "apt -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' autoremove -y " + plugin.lower(),
+                "apt-get -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' autoremove -y " + plugin.lower(),
                 shell=True, check=False, stderr=subprocess.STDOUT, stdout=outfile)).returncode
             # -o 'Binary::apt::APT::Keep-Downloaded-Packages=1;' is an option to force apt to keep the package in
             # /var/cache/apt/archives, so it do not re download them for every installation.
@@ -88,10 +89,16 @@ def remove_plugin(plugin, archi):
         else:
             print(f"Unknown architecture, expected deb or rpm, got {archi}. Exiting.")
             exit(1)
-    # Remove cache files
-    tmp_files = glob.glob('/tmp/centreon_*')
+    # Remove tmp files (where cache files are)
+    tmp_files = glob.glob('/tmp/*')
     for file in tmp_files:
-        os.remove(file)
+        try:
+            if os.path.isfile(file):
+                os.remove(file)  # removing files
+            elif os.path.isdir(file):
+                shutil.rmtree(file)  # removing directories
+        except Exception as e:
+            print(f"Erreur while removing file {file} : {str(e)}")
     return output_status
 
 
