@@ -70,9 +70,10 @@ sub new {
 
     $options{options}->add_options(arguments => {
         'filter-name:s'       => { name => 'filter_name' },
-        'since-hours:s'       => { name => 'since_hours' },
+        "filter-time:s"       => { name => 'filter_time', default => '1' },
         'display-failed-jobs' => { name => 'display_failed_jobs' },
-        'memory'              => { name => 'memory' }
+        'memory'              => { name => 'memory' },
+        "timezone:s"          => { name => 'timezone' }
     });
 
     $self->{statefile_cache} = centreon::plugins::statefile->new(%options);
@@ -176,6 +177,10 @@ Only check jobs that finished less than X hours ago
 =item B<--display-failed-jobs>
 
 Display failed jobs list in verbose output.
+
+=item B < --memory >
+
+Only check jobs that finished since the last check.
 
 =item B<--warning-*> B<--critical-*> 
 
