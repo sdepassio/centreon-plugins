@@ -11,15 +11,15 @@ Test Timeout        120s
 *** Variables ***
 ${MOCKOON_JSON}     ${CURDIR}${/}velocloud.mockoon.json
 ${HOSTNAME}         127.0.0.1
-${APIPORT}          3000
+${API_PORT}          3000
 ${CMD}              ${CENTREON_PLUGINS} 
 ...                 --plugin=cloud::vmware::velocloud::restapi::plugin
 ...                 --mode list-edges
 ...                 --hostname=${HOSTNAME}
 ...                 --username=XloginX
 ...                 --password=XpasswordX
-...                 --proto=http
-...                 --port=${APIPORT}
+...                 --proto=${API_PROTOCOL}
+...                 --port=${API_PORT}
 ...                 --custommode=api
 ...                 --statefile-dir=/dev/shm/
 

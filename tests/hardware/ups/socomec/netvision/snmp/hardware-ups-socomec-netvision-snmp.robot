@@ -17,8 +17,8 @@ Battery ${tc}/4
     ...    ${CMD}
     ...    --mode=battery
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=hardware/ups/socomec/netvision/snmp/battery
 
     # Append options to command

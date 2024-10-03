@@ -18,8 +18,8 @@ List diskio ${tc}
     ...    ${CMD}
     ...    --mode=list-diskio
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --disco-show
     ...    --snmp-community=${snmpcommunity}
     ${output}    Run    ${command}

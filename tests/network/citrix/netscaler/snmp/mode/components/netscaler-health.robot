@@ -18,7 +18,7 @@ check psu components ${tc}/2
     ...    ${CMD}
     ...    --mode=health
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community='network/citrix/netscaler/snmp/mode/components/${community}'
     ...    --component=psu
     ...    --alternative-status-mapping='${alternative_status_mapping}'

@@ -34,28 +34,28 @@ sub set_counters {
 
     $self->{maps_counters}->{global} = [
         { label => 'load', nlabel => 'ups.load.percent', set => {
-                key_values => [ { name => 'ups_load' } ],
-                output_template => 'ups load: %s%%',
-                perfdatas => [
-                    { template => '%s', min => 0, max => 100, unit => '%' }
-                ]
-            }
+            key_values      => [ { name => 'ups_load' } ],
+            output_template => 'ups load: %s%%',
+            perfdatas       => [
+                { template => '%s', min => 0, max => 100, unit => '%' }
+            ]
+        }
         },
         { label => 'charge-remaining', nlabel => 'battery.charge.remaining.percent', set => {
-                key_values => [ { name => 'charge_remain' } ],
-                output_template => 'battery charge remaining: %s%%',
-                perfdatas => [
-                    { template => '%s', min => 0, max => 100, unit => '%' }
-                ]
-            }
+            key_values      => [ { name => 'charge_remain' } ],
+            output_template => 'battery charge remaining: %s%%',
+            perfdatas       => [
+                { template => '%s', min => 0, max => 100, unit => '%' }
+            ]
+        }
         },
         { label => 'lifetime-remaining', nlabel => 'battery.lifetime.remaining.seconds', set => {
-                key_values => [ { name => 'lifetime_remain' } ],
-                output_template => 'battery estimated lifetime: %s seconds',
-                perfdatas => [
-                    { template => '%s', min => 0, unit => 's' }
-                ]
-            }
+            key_values      => [ { name => 'lifetime_remain' } ],
+            output_template => 'battery estimated lifetime: %s seconds',
+            perfdatas       => [
+                { template => '%s', min => 0, unit => 's' }
+            ]
+        }
         }
     ];
 }
@@ -75,19 +75,19 @@ sub manage_selection {
     my ($self, %options) = @_;
 
     my $oid_upsBatteryRuntimeValue = '.1.3.6.1.4.1.6574.4.3.6.1.0'; # in seconds
-    my $oid_upsBatteryChargeValue = '.1.3.6.1.4.1.6574.4.3.1.1.0'; # in %
-    my $oid_upsInfoLoadValue = '.1.3.6.1.4.1.6574.4.2.12.1.0'; # in %
+    my $oid_upsBatteryChargeValue = '.1.3.6.1.4.1.6574.4.3.1.1.0';  # in %
+    my $oid_upsInfoLoadValue = '.1.3.6.1.4.1.6574.4.2.12.1.0';      # in %
 
     my $snmp_result = $options{snmp}->get_leef(
-        oids => [
+        oids         => [
             $oid_upsBatteryRuntimeValue, $oid_upsBatteryChargeValue, $oid_upsInfoLoadValue
         ],
         nothing_quit => 1
     );
 
     $self->{global} = {
-        ups_load => $snmp_result->{$oid_upsInfoLoadValue},
-        charge_remain => $snmp_result->{$oid_upsBatteryChargeValue},
+        ups_load        => $snmp_result->{$oid_upsInfoLoadValue},
+        charge_remain   => $snmp_result->{$oid_upsBatteryChargeValue},
         lifetime_remain => $snmp_result->{$oid_upsBatteryRuntimeValue},
     };
 }

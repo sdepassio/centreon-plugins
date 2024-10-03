@@ -22,7 +22,7 @@ AWS CloudTrail count events
     ${command}    Catenate
     ...    ${CMD}
     ...    --mode=countevents
-    ...    --endpoint=http://localhost:3000/cloudtrail/events/AwsApiCall/${AwsApiCall}/AwsServiceEvent/${AwsServiceEvent}/AwsConsoleAction/${AwsConsoleAction}/AwsConsoleSignIn/${AwsConsoleSignIn}/NextToken/${NextToken}
+    ...    --endpoint=${API_PROTOCOL}://localhost:3000/cloudtrail/events/AwsApiCall/${AwsApiCall}/AwsServiceEvent/${AwsServiceEvent}/AwsConsoleAction/${AwsConsoleAction}/AwsConsoleSignIn/${AwsConsoleSignIn}/NextToken/${NextToken}
     ...    ${extraoptions}
     Ctn Run Command And Check Result As Strings    ${command}    ${expected_result}
 

@@ -17,7 +17,7 @@ ${cmd}              ${CENTREON_PLUGINS}
 ...                 --hostname=${HOSTNAME}
 ...                 --username=username
 ...                 --password=password
-...                 --port=${APIPORT}
+...                 --port=${API_PORT}
 
 
 *** Test Cases ***

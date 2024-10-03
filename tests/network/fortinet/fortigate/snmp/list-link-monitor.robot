@@ -17,8 +17,8 @@ Network Fortinet Fortigate SNMP list link monitor ${tc}
     ...    ${CMD}
     ...    --mode=list-link-monitors
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=network/fortinet/fortigate/snmp/linkmonitor
     ...    --filter-state=${filterstate}
     ...    --filter-name=${filtername}

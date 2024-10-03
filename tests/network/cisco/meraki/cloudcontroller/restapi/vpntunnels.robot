@@ -19,7 +19,7 @@ ${CMD}              ${CENTREON_PLUGINS} --plugin=network::cisco::meraki::cloudco
 Create cache from API
     [Tags]    meraki    api    vpn    network cache
     ${output}    Run
-    ...    ${CMD} --mode=cache --proto=http --port=${APIPORT} --hostname=${HOSTNAME}
+    ...    ${CMD} --mode=cache --proto=${API_PROTOCOL} --port=${API_PORT} --hostname=${HOSTNAME}
 
     ${output}    Strip String    ${output}
     Should Be Equal As Strings

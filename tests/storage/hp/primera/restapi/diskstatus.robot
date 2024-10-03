@@ -11,15 +11,15 @@ Test Timeout        120s
 *** Variables ***
 ${MOCKOON_JSON}     ${CURDIR}${/}hpe-primera.mockoon.json
 ${HOSTNAME}             127.0.0.1
-${APIPORT}              3000
+${API_PORT}              3000
 ${CMD}              ${CENTREON_PLUGINS} 
 ...                 --plugin=storage::hp::primera::restapi::plugin
 ...                 --mode disk-status
 ...                 --hostname=${HOSTNAME}
 ...                 --api-username=toto
 ...                 --api-password=toto
-...                 --proto=http
-...                 --port=${APIPORT}
+...                 --proto=${API_PROTOCOL}
+...                 --port=${API_PORT}
 ...                 --custommode=api
 ...                 --statefile-dir=/dev/shm/
 

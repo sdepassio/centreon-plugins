@@ -64,8 +64,8 @@ Components
         ...    ${CMD}
         ...    --mode=components
         ...    --hostname=${HOSTNAME}
-        ...    --snmp-version=${SNMPVERSION}
-        ...    --snmp-port=${SNMPPORT}
+        ...    --snmp-version=${SNMP_VERSION}
+        ...    --snmp-port=${SNMP_PORT}
         ...    --snmp-community=${check_components_test.snmpcommunity}
             
         Ctn Run Command And Check Result As Strings    ${command}    ${check_components_test.expected_output}
@@ -78,8 +78,8 @@ Uptime
         ...    ${CMD}
         ...    --mode=uptime
         ...    --hostname=${HOSTNAME}
-        ...    --snmp-version=${SNMPVERSION}
-        ...    --snmp-port=${SNMPPORT}
+        ...    --snmp-version=${SNMP_VERSION}
+        ...    --snmp-port=${SNMP_PORT}
         ...    --snmp-community=${test_item.snmpcommunity}
         ...    --warning-uptime=${test_item.warning}
         ...    --critical-uptime=${test_item.critical}

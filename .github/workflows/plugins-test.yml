@@ -1,0 +1,125 @@
+name: plugins-tests
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/plugins.yml'
+      - '.github/scripts/plugins-source.container.pl'
+      - '.github/packaging/centreon-plugin.yaml.template'
+      - 'src/**'
+      - 'packaging/**'
+      - 'tests/**'
+  push:
+    branches:
+      - develop
+      - master
+    paths:
+      - '.github/workflows/plugins.yml'
+      - '.github/scripts/plugins-source.container.pl'
+      - '.github/packaging/centreon-plugin.yaml.template'
+      - 'src/**'
+      - 'packaging/**'
+
+jobs:
+  get-environment-tests:
+    uses: ./.github/workflows/get-environment.yml
+
+  get-plugins-tests:
+    runs-on: ubuntu-22.04
+    outputs:
+      plugins: ${{ steps.get_plugins.outputs.plugins }}
+      robot_tests: ${{ steps.list_tests.outputs.robot_tests }}
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5.1.1
+        with:
+          python-version: '3.9'
+
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: filter
+        with:
+          base: ${{ github.ref }}
+          list-files: shell
+          filters: |
+            common:
+              - added|deleted|modified: src/centreon/**
+              - modified: .github/packaging/centreon-plugin.yaml.template
+            packages:
+              - added|modified: packaging/**
+            plugins:
+              - added|modified: src/**
+            robot_tests:
+              - added|modified: tests/**/*.robot
+              - added|modified: tests/**/*.json
+              - added|modified: tests/**/*.snmpwalk
+
+      - name: Transform plugins to directories
+        run: |
+          folders=()
+          for f in ${{ steps.filter.outputs.packages_files }}; do
+            echo "Adding $(dirname $f) to folders"
+            folders+=($(dirname $f))
+          done
+          unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
+          jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]} > package_directories.txt
+
+          files=()
+          for f in ${{ steps.filter.outputs.plugins_files }}; do
+              echo "Adding $f to files"
+              files+=($f)
+          done
+          unique_files=($(printf "%s\n" "${files[@]}" | sort -u | tr '\n' ' '))
+          jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_files[@]} > plugins.txt
+        shell: bash
+
+      - name: Get plugins for build
+        id: get_plugins
+        if: ${{ steps.filter.outputs.common == 'true' || steps.filter.outputs.packages == 'true' || steps.filter.outputs.plugins == 'true' }}
+        run: |
+          PLUGINS="$(python3 .github/scripts/process-plugins.py '${{ steps.filter.outputs.common == 'true' }}')"
+          echo "plugins=$(echo $PLUGINS)" >> $GITHUB_OUTPUT
+          if [ "$PLUGINS" == '' ]; then
+            echo "::notice::There are no modifications to the plugins packages"
+          fi
+        shell: bash
+
+      - name: List tests not related to a new or updated plugin
+        id: list_tests
+        run: |
+          # Get the unique directories of the robot tests
+          robot_tests_folders=()
+          for robot_test_file in ${{ steps.filter.outputs.robot_tests_files }}; do
+            robot_tests_folders+=($(dirname $robot_test_file))
+          done
+          unique_robot_tests_folders=($(printf "%s\n" "${robot_tests_folders[@]}" | sort -u))
+          robot_tests_folders=("${unique_robot_tests_folders[@]}")
+          
+          packages=$(<package_directories.txt)
+          plugins=$(<plugins.txt)
+          
+          # Get the robot tests that are not related to the added/modified plugins and packages
+          tests_dirs=()
+          for test_dir in "${robot_tests_folders[@]}"; do
+            if [[ ! $plugins =~ ${test_dir/tests/src} ]]; then
+              found=false
+              for package_file in $(echo $packages | jq -r '.[]'); do
+                if grep -q $(echo $test_dir | sed 's|tests/||g') $package_file/pkg.json; then
+                  found=true
+                  break
+                fi
+              done
+              if ! $found; then
+                  tests_dirs+=($test_dir)
+              fi
+            fi
+          done
+          echo "robot_tests=$(echo ${tests_dirs[@]})" >> $GITHUB_OUTPUT
+        shell: bash

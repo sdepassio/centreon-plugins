@@ -91,8 +91,8 @@ Run Avocent 8000 Plugin
     ...    --plugin=hardware::kvm::avocent::acs::8000::snmp::plugin
     ...    --mode=${mode}
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=${SNMPCOMMUNITY}
     ...    ${extraoptions}
 
