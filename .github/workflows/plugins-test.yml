@@ -24,6 +24,7 @@ on:
       - '.github/packaging/centreon-plugin.yaml.template'
       - 'src/**'
       - 'packaging/**'
+      - 'tests/**'
 
 jobs:
   get-environment-tests:
@@ -64,20 +65,38 @@ jobs:
       - name: Transform plugins to directories
         run: |
           folders=()
-          for f in ${{ steps.filter.outputs.packages_files }}; do
-            echo "Adding $(dirname $f) to folders"
-            folders+=($(dirname $f))
+          for package_folder in ${{ steps.filter.outputs.packages_files }}; do
+            echo "Adding $(dirname $package_folder) to folders"
+            folders+=($(dirname $package_folder))
           done
           unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
           jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]} > package_directories.txt
+          
+          echo "PACKAGES: $(<package_directories.txt)"
 
           files=()
-          for f in ${{ steps.filter.outputs.plugins_files }}; do
-              echo "Adding $f to files"
-              files+=($f)
+          for plugin_file in ${{ steps.filter.outputs.plugins_files }}; do
+              echo "Adding $plugin_file to files"
+              files+=($plugin_file)
           done
           unique_files=($(printf "%s\n" "${files[@]}" | sort -u | tr '\n' ' '))
           jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_files[@]} > plugins.txt
+          
+          echo "PLUGINS: $(<plugins.txt)"
+          
+          tests_folders=()
+          echo "robot_tests_files: ${{ steps.filter.outputs.robot_tests_files }}"
+          for test_file in ${{ steps.filter.outputs.robot_tests_files }}; do
+              test_folder=$(dirname $test_file)
+              if [[ ! $unique_files =~ ${test_folder/tests/src} ]]; then
+                  echo "Adding $test_folder to tests_folders"
+                  tests_folders+=($test_folder)
+              fi
+          done
+          unique_tests_folders=($(printf "%s\n" "${tests_folders[@]}" | sort -u | tr '\n' ' '))
+          jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_tests_folders[@]} > tests_directories.txt
+          
+          echo "ROBOT_TESTS: $(<tests_directories.txt)"
         shell: bash
 
       - name: Get plugins for build
