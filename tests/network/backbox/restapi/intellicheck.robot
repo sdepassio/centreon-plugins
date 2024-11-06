@@ -15,8 +15,8 @@ ${cmd}              ${CENTREON_PLUGINS}
 ...                 --plugin=network::backbox::restapi::plugin
 ...                 --custommode=api
 ...                 --hostname=${HOSTNAME}
-...                 --port=${APIPORT}
-...                 --proto=http
+...                 --port=${API_PORT}
+...                 --proto=${API_PROTOCOL}
 ...                 --api-token=token
 ...                 --mode=intellicheck
 

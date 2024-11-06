@@ -17,8 +17,8 @@ swap ${tc}
     ...    ${CMD}
     ...    --mode=swap
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=os/linux/snmp/swap
     ...    --snmp-timeout=1
     ...    --no-swap=${no-swap}

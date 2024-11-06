@@ -16,8 +16,8 @@ listvolumes${tc}
     ...    ${CMD}
     ...    --mode=list-volumes
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=storage/wd/nas/snmp/nas-wd
     ...    ${extra_option}
     

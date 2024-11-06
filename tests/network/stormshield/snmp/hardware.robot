@@ -17,8 +17,8 @@ hardware ${tc}
     ...    ${CMD}
     ...    --mode=hardware
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=network/stormshield/snmp/stormshield-fake
     ...    --snmp-timeout=1
     ...    ${extra_options}

@@ -11,7 +11,7 @@ ${CMD}      ${CENTREON_PLUGINS}
 ...         --plugin=os::linux::snmp::plugin
 ...         --mode=interfaces
 ...         --hostname=${HOSTNAME}
-...         --snmp-port=${SNMPPORT}
+...         --snmp-port=${SNMP_PORT}
 ...         --snmp-community=os/linux/snmp/network-interfaces
 ...         --statefile-dir=/dev/shm/
 

@@ -22,7 +22,7 @@ AWS CloudTrail check trail status
     ${command}    Catenate
     ...    ${CMD}
     ...    --mode=checktrailstatus
-    ...    --endpoint=http://${HOSTNAME}:${APIPORT}/cloudtrail/gettrailstatus/${trailstatus}
+    ...    --endpoint=${API_PROTOCOL}://${HOSTNAME}:${API_PORT}/cloudtrail/gettrailstatus/${trailstatus}
     ...    --trail-name=trailname
     Ctn Run Command And Check Result As Strings    ${command}    ${expected_result}
         

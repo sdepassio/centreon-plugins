@@ -17,8 +17,8 @@ SNMP Collection - Sputnik Environment ${tc}/3
     ...    ${CMD}
     ...    --mode=collection
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=apps/protocols/snmp/collection-sputnik
     ...    --config=${CURDIR}${/}..${/}..${/}..${/}..${/}src/contrib/collection/snmp/sputnik-environment.json
 

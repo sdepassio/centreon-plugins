@@ -15,7 +15,7 @@ ${CMD}              ${CENTREON_PLUGINS} --plugin=apps::ipfabric::plugin
 ...                 --api-key=EEECGFCGFCGF
 ...                 --mode=discovery
 ...                 --http-peer-addr=127.0.0.1
-...                 --proto=http
+...                 --proto=${API_PROTOCOL}
 ...                 --port=3000
 ...                 --prettify
 

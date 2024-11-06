@@ -20,15 +20,15 @@ check hashicorp vault manager${Name}
     ...    ${CMD}
     ...    --pass-manager=hashicorpvault
     ...    --vault-address=${HOSTNAME}
-    ...    --vault-port=${APIPORT}
-    ...    --vault-protocol=http
+    ...    --vault-port=${API_PORT}
+    ...    --vault-protocol=${API_PROTOCOL}
     ...    --auth-method=userpass
     ...    --auth-settings="username=hcvaultuser"
     ...    --secret-path="path/of/the/secret"
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --map-option="snmp_community=\\%{value_path/of/the/secret}"
     ...    --mode=string-value
-    ...    --snmp-version=${SNMPVERSION}
+    ...    --snmp-version=${SNMP_VERSION}
     ...    --snmp-community=apps/protocols/snmp/snmp-single-oid
     ...    --oid='.1.3.6.1.2.1.1.1.0' ${path-param}
     ...    --format-ok='current value is: \\%{details_ok}'

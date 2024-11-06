@@ -11,7 +11,7 @@ Test Timeout        120s
 *** Variables ***
 ${MOCKOON_JSON}         ${CURDIR}${/}cloud-azure-policyinsights-policystates.json
 
-${BASE_URL}             http://${HOSTNAME}:${APIPORT}
+${BASE_URL}             ${API_PROTOCOL}://${HOSTNAME}:${API_PORT}
 ${LOGIN_ENDPOINT}       ${BASE_URL}/login
 ${CMD}                  ${CENTREON_PLUGINS} --plugin=cloud::azure::policyinsights::policystates::plugin --subscription=subscription --tenant=tenant --client-id=client_id --client-secret=secret --statefile-dir=/dev/shm/ --login-endpoint=${LOGIN_ENDPOINT}
 

@@ -18,7 +18,7 @@ outlets ${tc}
     ...    ${CMD}
     ...    --mode=outlets
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=hardware/pdu/cyberpower/snmp/CyberPower
     ...    ${extraoptions}
 

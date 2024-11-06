@@ -11,7 +11,7 @@ ${CMD}      ${CENTREON_PLUGINS}
 ...         --plugin=os::windows::snmp::plugin
 ...         --mode=service
 ...         --hostname=${HOSTNAME}
-...         --snmp-port=${SNMPPORT}
+...         --snmp-port=${SNMP_PORT}
 
 
 *** Test Cases ***

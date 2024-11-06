@@ -11,7 +11,7 @@ ${CMD}      ${CENTREON_PLUGINS}
 ...         --plugin=hardware::devices::camera::avigilon::snmp::plugin
 ...         --mode=storage
 ...         --hostname=${HOSTNAME}
-...         --snmp-port=${SNMPPORT}
+...         --snmp-port=${SNMP_PORT}
 
 
 *** Test Cases ***

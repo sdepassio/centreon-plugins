@@ -32,7 +32,7 @@ sub new {
     $self->{modes} = {
         'hardware'     => 'storage::wd::nas::snmp::mode::hardware',
         'list-volumes' => 'storage::wd::nas::snmp::mode::listvolumes',
-        'volumes'      => 'storage::wd::nas::snmp::mode::volumes' 
+        'volumes'      => 'storage::wd::nas::snmp::mode::volumes'
     };
 
     return $self;

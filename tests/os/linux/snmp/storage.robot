@@ -17,8 +17,8 @@ storage ${tc}
     ...    ${CMD}
     ...    --mode=storage
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=os/linux/snmp/linux
     ...    --snmp-timeout=1
     ...    ${extra_options}

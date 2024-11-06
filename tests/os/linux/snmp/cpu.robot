@@ -17,8 +17,8 @@ cpu ${tc}
     ...    ${CMD}
     ...    --mode=cpu
     ...    --hostname=${HOSTNAME}
-    ...    --snmp-version=${SNMPVERSION}
-    ...    --snmp-port=${SNMPPORT}
+    ...    --snmp-version=${SNMP_VERSION}
+    ...    --snmp-port=${SNMP_PORT}
     ...    --snmp-community=os/linux/snmp/network-interfaces
     ...    --snmp-timeout=1
     ...    ${extra_options}

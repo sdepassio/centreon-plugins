@@ -9,9 +9,10 @@ ${CENTREON_PLUGINS}     perl ${CURDIR}${/}..${/}..${/}src${/}centreon_plugins.pl
 # one we use package, we need to remove the "perl" part to be sure the plugin is executable and is correctly formated
 # with a shebang at the top.
 ${HOSTNAME}             127.0.0.1
-${APIPORT}              3000
-${SNMPPORT}             2024
-${SNMPVERSION}          2c
+${API_PROTOCOL}         http
+${API_PORT}             3000
+${SNMP_PORT}            2024
+${SNMP_VERSION}         2c
 ${PERCENT}              %
 
 

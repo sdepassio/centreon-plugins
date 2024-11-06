@@ -14,8 +14,8 @@ ${MOCKOON_JSON}     ${CURDIR}${/}collection-centreon-web.mockoon.json
 ${CMD}              ${CENTREON_PLUGINS} --plugin=apps::protocols::http::plugin
 ...                 --mode collection
 ...                 --constant='hostname=${HOSTNAME}'
-...                 --constant='protocol=http'
-...                 --constant='port=${APIPORT}'
+...                 --constant='protocol=${API_PROTOCOL}'
+...                 --constant='port=${API_PORT}'
 ...                 --constant='username=admin'
 ...                 --constant='password=myPassword'
 
