@@ -1,0 +1,161 @@
+name: perl-cpan-libraries-new
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/perl-cpan-libraries-new.yml"
+  push:
+    branches:
+      - develop
+      - dev-[2-9][0-9].[0-9][0-9].x
+      - master
+      - "[2-9][0-9].[0-9][0-9].x"
+    paths:
+      - ".github/workflows/perl-cpan-libraries-new.yml"
+
+jobs:
+  get-environment:
+    uses: ./.github/workflows/get-environment.yml
+
+  libraries-check:
+    needs: [get-environment]
+    if: |
+      needs.get-environment.outputs.skip_workflow == 'false' &&
+      needs.get-environment.outputs.stability != 'stable'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        distribution: [el8, el9, bullseye, bookworm, jammy, noble]
+        include:
+          - name: "ARGV::Struct"
+          - name: "Authen::SASL::SASLprep"
+          - name: "Authen::SCRAM::Client"
+          - name: "BSON"
+            rpm_provides: "perl(BSON::Bytes) perl(BSON::Code) perl(BSON::DBRef) perl(BSON::OID) perl(BSON::Raw) perl(BSON::Regex) perl(BSON::Time) perl(BSON::Timestamp) perl(BSON::Types) perl(BSON)"
+          - name: "BSON::XS"
+          - name: "Config::AWS"
+          - name: "Convert::Binary::C"
+          - name: "Convert::EBCDIC"
+          - name: "Crypt::Argon2"
+            preinstall_cpanlibs: "Dist::Build"
+            rpm_provides: "perl-Crypt-Argon2-debuginfo perl(Crypt::Argon2)"
+            deb_use_dh_make_perl: "false"
+            deb_no-auto-depends: "true"
+            deb_dependencies: "libexporter-tiny-perl libtime-hires-perl libxsloader-perl"
+            deb_provides: "libcrypt-argon2-perl-dbgsym"
+            deb_build_arm64: "true"
+            revision: "2"
+          - name: "Crypt::Blowfish_PP"
+          - name: "Crypt::OpenSSL::AES"
+            deb_use_dh_make_perl: "false"
+            deb_dependencies: "libexporter-tiny-perl libxs-install-perl"
+            deb_no-auto-depends: "true"
+            deb_build_arm64: "true"
+          - name: "DBD::Sybase"
+          - name: "DataStruct::Flat"
+          - name: "DateTime::Format::Duration::ISO8601"
+            rpm_provides: "perl(DateTime-Format-Duration-ISO8601)"
+          - name: "Device::Modbus"
+          - name: "Device::Modbus::RTU::Client"
+          - name: "Device::Modbus::TCP::Client"
+          - name: "Digest::SHA1"
+          - name: "Email::Send::SMTP::Gmail"
+          - name: "Exporter::Tiny" # Required by JSON::Path: the version available in the official repositories doesn't work with the last version of JSON::Path
+          - name: "FFI::CheckLib"
+            rpm_dependencies: "perl(Env)"
+          - name: "FFI::Platypus"
+            rpm_provides: "perl(FFI::Platypus::Buffer) perl(FFI::Platypus::Memory)"
+            rpm_dependencies: "perl(Capture::Tiny) perl(FFI::CheckLib) perl(File::Spec::Functions) perl(IPC::Cmd) perl(JSON::PP) perl(List::Util) perl(autodie) perl(constant) perl(parent)"
+            no-auto-depends: "true"
+          - name: "File::SearchPath"
+          - name: "HTTP::ProxyPAC"
+          - name: "Hash::Ordered"
+          - name: "JMX::Jmx4Perl"
+          - name: "JSON::Path"
+          - name: "LV"
+          - name: "Libssh::Session"
+            rpm_dependencies: "libssh"
+            rpm_provides: "perl-Libssh-Session-debuginfo perl(Libssh::Session) perl(Libssh::Sftp)"
+            deb_use_dh_make_perl: "false"
+            deb_no-auto-depends: "true"
+            deb_dependencies: "libcarp-assert-perl libdynaloader-functions-perl libexporter-tiny-perl libdevel-overloadinfo-perl libssh-4 libc6"
+            deb_provides: "libssh-session-perl-dbgsym libssh-session-sftp"
+            deb_build_arm64: "true"
+            revision: "2"
+          - name: "Mojo::IOLoop::Signal"
+            rpm_dependencies: "perl-Mojolicious"
+            rpm_provides: "perl(Mojo::IOLoop::Signal)"
+            no-auto-depends: "true"
+          - name: "MongoDB"
+          - name: "MooseX::ClassAttribute"
+          - name: "Net::Amazon::Signature::V4"
+          - name: "Net::Curl"
+            rpm_dependencies: "libcurl"
+            rpm_provides: "perl-Net-Curl-debuginfo perl(Net::Curl) perl(Net::Curl::Compat) perl(Net::Curl::Easy) perl(Net::Curl::Form) perl(Net::Curl::Multi) perl(Net::Curl::Share)"
+            deb_use_dh_make_perl: "false"
+            deb_no-auto-depends: "true"
+            deb_build_arm64: "true"
+            deb_dependencies: "libcarp-assert-perl libdynaloader-functions-perl libexporter-tiny-perl libdevel-overloadinfo-perl libcurl4"
+            deb_provides: "libnet-curl-perl-dbgsym libnet-curl-compat-perl libnet-curl-easy-perl libnet-curl-form-perl libnet-curl-share-perl libnet-curl-multi-perl"
+            revision: "2"
+          - name: "Net::DHCP"
+            rpm_provides: "perl(Net::DHCP::Constants) perl(Net::DHCP::Packet)"
+          - name: "Net::FTPSSL"
+          - name: "Net::HTTPTunnel"
+          - name: "Net::MQTT::Simple"
+            version: "1.29"
+          - name: "Net::NTP"
+          - name: "Net::SMTPS"
+          - name: "Net::SMTP_auth"
+          - name: "Net::Subnet"
+          - name: "Net::TFTP"
+          - name: "PBKDF2::Tiny"
+          - name: "Paws"
+            deb_use_dh_make_perl: "false"
+            deb_dependencies: "libmoose-perl libmoosex-classattribute-perl libjson-maybexs-perl liburl-encode-perl libargv-struct-perl libmoo-perl libtype-tiny-perl libdatastruct-flat-perl libmodule-find-perl libthrowable-perl liburi-template-perl libnet-amazon-signature-v4-perl"
+            deb_no-auto-depends: "true"
+          - name: "Statistics::Descriptive"
+          - name: "Statistics::Regression"
+          - name: "Term::Clui"
+          - name: "URI::Template"
+          - name: "URL::Encode"
+          - name: "URL::Encode::XS"
+          - name: "UUID"
+            version: "0.31"
+          - name: "UUID::URandom"
+          - name: "Unicode::Stringprep"
+          - name: "WWW::Selenium"
+          - name: "XML::LibXML::Simple"
+          - name: "XS::Loader"
+          - name: "ZMQ::Constants"
+          - name: "ZMQ::FFI"
+            rpm_dependencies: "zeromq"
+          - name: "ZMQ::LibZMQ4"
+            rpm_dependencies: "zeromq"
+            deb_build_arm64: "true"
+            deb_use_dh_make_perl: "false"
+            deb_dependencies: "libzmq5"
+          - distribution: el8
+            image: almalinux:8
+          - distribution: el9
+            image: almalinux:9
+          - distribution: bullseye
+            image: debian:bullseye
+          - distribution: bookworm
+            image: debian:bookworm
+          - distribution: jammy
+            image: ubuntu:jammy
+          - distribution: noble
+            image: ubuntu:noble
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
