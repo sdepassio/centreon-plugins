@@ -61,6 +61,8 @@ jobs:
             image: ubuntu:noble
 
     runs-on: ubuntu-24.04
+    container:
+      image: ${{ matrix.image }}
 
     name: Check CPAN libraries ${{ matrix.distribution }}
 
