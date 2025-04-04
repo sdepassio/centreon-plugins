@@ -62,7 +62,7 @@ jobs:
 
     runs-on: ubuntu-24.04
 
-    name: Check perl lib ${{ matrix.name }} on ${{ matrix.distrib }}
+    name: Check CPAN libraries ${{ matrix.distribution }}
     container:
       image: ${{ vars.DOCKER_INTERNAL_REGISTRY_URL }}/${{ matrix.image }}:latest
       credentials:
@@ -73,7 +73,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - if: startsWith(matrix.distribution, 'el')
+      - if: ${{ matrix.distribution_type == 'el' }}
         name: Set up almalinux
         run: |
           dnf -y install epel-release
