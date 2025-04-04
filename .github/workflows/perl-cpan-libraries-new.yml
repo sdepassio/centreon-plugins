@@ -73,7 +73,7 @@ jobs:
       - name: Set up repositories
         run: |
           if [[ "${{ matrix.distribution_family }}" == "el" ]]; then
-            dnf install -y epel-release 'dnf-command(config-manager)'
+            dnf install -y epel-release 'dnf-command(config-manager)' jq
             dnf config-manager --set-enabled powertools || true # alma 8
             dnf config-manager --set-enabled crb || true # alma 9
             # Add Centreon repository
@@ -91,7 +91,7 @@ jobs:
             gpgkey=https://yum-gpg.centreon.com/RPM-GPG-KEY-CES\n' > /etc/yum.repos.d/centreon-plugins.repo
           else
             apt-get update
-            apt-get install -y wget gpg
+            apt-get install -y wget gpg jq
             wget -O- https://apt-key.centreon.com | gpg --dearmor | tee /etc/apt/trusted.gpg.d/centreon.gpg > /dev/null 2>&1
             if [[ "${{ matrix.distribution_family }}" == "debian" ]]; then
               echo "deb https://packages.centreon.com/apt-plugins-stable/ ${{ matrix.distribution_version }} main" | tee /etc/apt/sources.list.d/centreon-plugins.list
