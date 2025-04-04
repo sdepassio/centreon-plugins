@@ -36,27 +36,27 @@ jobs:
         distribution: [el8, el9, bullseye, bookworm, jammy, noble]
         include:
           - distribution: el8
-            distribution_type: el
+            distribution_family: el
             distribution_version: 8
             image: almalinux:8
           - distribution: el9
-            distribution_type: el
+            distribution_family: el
             distribution_version: 9
             image: almalinux:9
           - distribution: bullseye
-            distribution_type: debian
+            distribution_family: debian
             distribution_version: bullseye
             image: debian:bullseye
           - distribution: bookworm
-            distribution_type: debian
+            distribution_family: debian
             distribution_version: bookworm
             image: debian:bookworm
           - distribution: jammy
-            distribution_type: ubuntu
+            distribution_family: ubuntu
             distribution_version: jammy
             image: ubuntu:jammy
           - distribution: noble
-            distribution_type: ubuntu
+            distribution_family: ubuntu
             distribution_version: noble
             image: ubuntu:noble
 
@@ -68,11 +68,38 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - if: ${{ matrix.distribution_type == 'el' }}
-        name: Set up almalinux
+      - name: Set up repositories
         run: |
-          dnf -y install epel-release
-          dnf config-manager --set-enabled powertools
+          if [[ "${{ matrix.distribution_family }}" == "el" ]]; then
+            dnf install -y epel-release 'dnf-command(config-manager)'
+            dnf config-manager --set-enabled powertools || true # alma 8
+            dnf config-manager --set-enabled crb || true # alma 9
+            # Add Centreon repository
+            echo -e '[centreon-plugins-stable]\n
+            name=centreon plugins stable x86_64\n
+            baseurl=https://packages.centreon.com/rpm-plugins/${{ matrix.distribution }}/stable/x86_64\n
+            enabled=1\n
+            gpgcheck=1\n
+            gpgkey=https://yum-gpg.centreon.com/RPM-GPG-KEY-CES\n
+            [centreon-plugins-stable-noarch]\n
+            name=centreon plugins stable noarch\n
+            baseurl=https://packages.centreon.com/rpm-plugins/${{ matrix.distribution }}/stable/noarch\n
+            enabled=1\n
+            gpgcheck=1\n
+            gpgkey=https://yum-gpg.centreon.com/RPM-GPG-KEY-CES\n' > /etc/yum.repos.d/centreon-plugins.repo
+          else
+            apt-get update
+            apt-get install -y wget gpg
+            wget -O- https://apt-key.centreon.com | gpg --dearmor | tee /etc/apt/trusted.gpg.d/centreon.gpg > /dev/null 2>&1
+            if [[ "${{ matrix.distribution_family }}" == "debian" ]]; then
+              echo "deb https://packages.centreon.com/apt-plugins-stable/ ${{ matrix.distribution_version }} main" | tee /etc/apt/sources.list.d/centreon-plugins.list
+            elif [[ "${{ matrix.distribution_family }}" == "ubuntu" ]]; then
+              echo "deb https://packages.centreon.com/ubuntu-plugins-testing/ ${{ matrix.distribution_version }} main" | tee -a /etc/apt/sources.list.d/centreon-plugins.list
+            fi
+            apt-get update
+          fi
+        shell: bash
 
       - name: Get libraries list
-        run: .github/scripts/get-libraries-list.sh ${{ matrix.distribution_type }} ${{ matrix.distribution_version }}
+        run: .github/scripts/get-cpan-libraries-list.sh ${{ matrix.distribution_family }} ${{ matrix.distribution_version }}
+        shell: bash
