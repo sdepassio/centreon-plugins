@@ -63,11 +63,6 @@ jobs:
     runs-on: ubuntu-24.04
 
     name: Check CPAN libraries ${{ matrix.distribution }}
-    container:
-      image: ${{ vars.DOCKER_INTERNAL_REGISTRY_URL }}/${{ matrix.image }}:latest
-      credentials:
-        username: ${{ secrets.HARBOR_CENTREON_PULL_USERNAME }}
-        password: ${{ secrets.HARBOR_CENTREON_PULL_TOKEN }}
 
     steps:
       - name: Checkout sources
