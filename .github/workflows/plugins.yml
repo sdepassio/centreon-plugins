@@ -13,6 +13,7 @@ on:
       - '.github/packaging/centreon-plugin.yaml.template'
       - 'src/**'
       - 'packaging/**'
+      - 'tests/**'
   push:
     branches:
       - develop
@@ -23,6 +24,7 @@ on:
       - '.github/packaging/centreon-plugin.yaml.template'
       - 'src/**'
       - 'packaging/**'
+      - 'tests/**'
 
 jobs:
   get-environment:
@@ -53,22 +55,24 @@ jobs:
             packages:
               - added|modified: packaging/**
             plugins:
-              - added|modified: src/**
+              - added|modified: src/**git checkout -b CTOR-561-robot-test-should-be-run-by-gha-when-robot-test-are-modified
+            tests:
+              - added|modified: tests/**
 
       - name: transform to directories
         run: |
-          folders=()
+          packages_folders=()
           for f in ${{ steps.filter.outputs.packages_files }}; do
             echo "Adding $(dirname $f) to folders"
-            folders+=($(dirname $f))
+            packages_folders+=($(dirname $f))
           done
           unique_folders=($(printf "%s\n" "${folders[@]}" | sort -u | tr '\n' ' '))
           jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]} > package_directories.txt
 
           files=()
-          for f in ${{ steps.filter.outputs.plugins_files }}; do
+          for f in src/network/aruba/aoscx/snmp/mode/hardware.pm src/apps/antivirus/clamav/local/plugin.pm; do
               echo "Adding $f to files"
-              files+=($f)
+              files+=($(dirname $f))
           done
           unique_files=($(printf "%s\n" "${files[@]}" | sort -u | tr '\n' ' '))
           jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_files[@]} > plugins.txt
