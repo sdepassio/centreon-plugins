@@ -351,7 +351,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [packaging-plugins-bullseye, packaging-plugins-bookworm, packaging-plugins-jammy, packaging-plugins-noble, packaging-plugins-bullseye-arm64]
+        image: [packaging-plugins-bullseye, packaging-plugins-bookworm, packaging-plugins-jammy, packaging-plugins-noble, packaging-plugins-bullseye-arm64, packaging-plugins-bookworm-arm64]
         name:
           [
             "ARGV::Struct",
@@ -362,7 +362,7 @@ jobs:
             "Crypt::OpenSSL::AES",
             "DataStruct::Flat",
             "DateTime::Format::Duration::ISO8601",
-            "Device::Modbus",
+            "Device::Modbus",:
             "Device::Modbus::RTU::Client",
             "Device::Modbus::TCP::Client",
             "Digest::SHA1",
@@ -370,7 +370,8 @@ jobs:
             "Hash::Ordered",
             "HTTP::ProxyPAC",
             "JMX::Jmx4Perl",
-            "Libssh::Session",
+            "Libssh::Session",exit:q:q
+
             "Mojo::IOLoop::Signal",
             "Net::Amazon::Signature::V4",
             "Net::Curl",
@@ -416,6 +417,12 @@ jobs:
             image: packaging-plugins-bullseye-arm64
             arch: arm64
             runner_name: centreon-collect-arm64
+          - build_name: bookworm-arm64
+            distrib: bookworm
+            package_extension: deb
+            image: packaging-plugins-bookworm-arm64
+            arch: arm64
+            runner_name: centreon-collect-arm64
           - name: "Crypt::Argon2"
             build_names: "bullseye-amd64,jammy,noble,bullseye-arm64"
             preinstall_cpanlibs: "Dist::Build"
@@ -428,7 +435,7 @@ jobs:
             use_dh_make_perl: "false"
             deb_dependencies: "libexporter-tiny-perl libxs-install-perl"
             no-auto-depends: "true"
-            build_names: "bullseye-amd64,bookworm,jammy,noble,bullseye-arm64"
+            build_names: "bullseye-amd64,bookworm,jammy,noble,bullseye-arm64,bookworm-arm64"
           - name: "Device::Modbus::RTU::Client"
             build_names: "bookworm"
           - name: "Device::Modbus::TCP::Client"
@@ -437,7 +444,7 @@ jobs:
             build_names: "jammy,noble"
           - name: "Libssh::Session"
             use_dh_make_perl: "false"
-            build_names: "bullseye-amd64,bookworm,jammy,noble,bullseye-arm64"
+            build_names: "bullseye-amd64,bookworm,jammy,noble,bullseye-arm64,bookworm-arm64"
             no-auto-depends: "true"
             deb_dependencies: "libcarp-assert-perl libdynaloader-functions-perl libexporter-tiny-perl libdevel-overloadinfo-perl libssh-4 libc6"
             deb_provides: "libssh-session-perl-dbgsym libssh-session-sftp"
@@ -464,7 +471,7 @@ jobs:
             use_dh_make_perl: "false"
             version: "0.01"
             deb_dependencies: "libzmq5"
-            build_names: "bullseye-amd64,bookworm,jammy,noble,bullseye-arm64"
+            build_names: "bullseye-amd64,bookworm,jammy,noble,bullseye-arm64,bookworm-arm64"
     name: package ${{ matrix.distrib }} ${{ matrix.arch }} ${{ matrix.name }}
     container:
       image: ${{ vars.DOCKER_INTERNAL_REGISTRY_URL }}/${{ matrix.image }}:latest
@@ -697,6 +704,11 @@ jobs:
           - package_extension: deb
             image: debian:bullseye
             distrib: bullseye
+            arch: arm64
+            runner_name: centreon-collect-arm64
+          - package_extension: deb
+            image: debian:bookworm
+            distrib: bookworm
             arch: arm64
             runner_name: centreon-collect-arm64
 

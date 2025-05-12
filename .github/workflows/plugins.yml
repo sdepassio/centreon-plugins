@@ -347,6 +347,11 @@ jobs:
             distrib: bullseye
             arch: arm64
             runner_name: centreon-collect-arm64
+          - package_extension: deb
+            image: testing-plugins-bookworm-arm64
+            distrib: bookworm
+            arch: arm64
+            runner_name: centreon-collect-arm64
 
     runs-on: ${{ matrix.runner_name }}
     container:
