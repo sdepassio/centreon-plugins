@@ -55,7 +55,7 @@ jobs:
             packages:
               - added|modified: packaging/**
             plugins:
-              - added|modified: src/**git checkout -b CTOR-561-robot-test-should-be-run-by-gha-when-robot-test-are-modified
+              - added|modified: src/**
             tests:
               - added|modified: tests/**
 
@@ -70,7 +70,7 @@ jobs:
           jq --compact-output --null-input '$ARGS.positional' --args -- ${unique_folders[@]} > package_directories.txt
 
           files=()
-          for f in src/network/aruba/aoscx/snmp/mode/hardware.pm src/apps/antivirus/clamav/local/plugin.pm; do
+          for f in ${{ steps.filter.outputs.plugins_files }};  do
               echo "Adding $f to files"
               files+=($(dirname $f))
           done
