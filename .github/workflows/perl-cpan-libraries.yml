@@ -362,7 +362,7 @@ jobs:
             "Crypt::OpenSSL::AES",
             "DataStruct::Flat",
             "DateTime::Format::Duration::ISO8601",
-            "Device::Modbus",:
+            "Device::Modbus",
             "Device::Modbus::RTU::Client",
             "Device::Modbus::TCP::Client",
             "Digest::SHA1",
@@ -370,7 +370,7 @@ jobs:
             "Hash::Ordered",
             "HTTP::ProxyPAC",
             "JMX::Jmx4Perl",
-            "Libssh::Session",exit:q:q
+            "Libssh::Session",
 
             "Mojo::IOLoop::Signal",
             "Net::Amazon::Signature::V4",
