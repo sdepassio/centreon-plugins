@@ -61,7 +61,16 @@
 	</fpc>
 	<fpc>
 		<slot>2</slot>
-		<state>Empty</state>
+		<state>Online</state>
+		<temperature junos:celsius="25">25</temperature>
+		<cpu-total>7</cpu-total>
+		<cpu-interrupt>0</cpu-interrupt>
+		<cpu-1min-avg>7</cpu-1min-avg>
+		<cpu-5min-avg>7</cpu-5min-avg>
+		<cpu-15min-avg>7</cpu-15min-avg>
+		<memory-dram-size>23584</memory-dram-size>
+		<memory-heap-utilization>12</memory-heap-utilization>
+		<memory-buffer-utilization>4</memory-buffer-utilization>
 	</fpc>
 	<fpc>
 		<slot>3</slot>
@@ -77,9 +86,9 @@
 		<temperature junos:celsius="35">35</temperature>
 		<cpu-total>1</cpu-total>
 		<cpu-interrupt>0</cpu-interrupt>
-		<cpu-1min-avg>1</cpu-1min-avg>
-		<cpu-5min-avg>1</cpu-5min-avg>
-		<cpu-15min-avg>1</cpu-15min-avg>
+		<cpu-1min-avg>2</cpu-1min-avg>
+		<cpu-5min-avg>2</cpu-5min-avg>
+		<cpu-15min-avg>2</cpu-15min-avg>
 		<memory-dram-size>32768</memory-dram-size>
 		<memory-heap-utilization>16</memory-heap-utilization>
 		<memory-buffer-utilization>0</memory-buffer-utilization>
