@@ -1,0 +1,265 @@
+[
+  {
+    "name": "ARGV::Struct"
+  },
+  {
+    "name": "Authen::SASL::SASLprep"
+  },
+  {
+    "name": "Authen::SCRAM::Client"
+  },
+  {
+    "name": "BSON",
+    "rpm": {
+      "provides": "perl(BSON::Bytes) perl(BSON::Code) perl(BSON::DBRef) perl(BSON::OID) perl(BSON::Raw) perl(BSON::Regex) perl(BSON::Time) perl(BSON::Timestamp) perl(BSON::Types) perl(BSON)"
+    }
+  },
+  {
+    "name": "BSON::XS"
+  },
+  {
+    "name": "Config::AWS"
+  },
+  {
+    "name": "Convert::Binary::C"
+  },
+  {
+    "name": "Convert::EBCDIC"
+  },
+  {
+    "name": "Crypt::Argon2",
+    "preinstall_cpanlibs": "Dist::Build",
+    "revision": "2",
+    "deb": {
+      "build_arm64": "true",
+      "dependencies": "libexporter-tiny-perl libtime-hires-perl libxsloader-perl",
+      "no_auto_depends": "true",
+      "provides": "libcrypt-argon2-perl-dbgsym",
+      "use_dh_make_perl": "false"
+    },
+    "rpm": {
+      "provides": "perl-Crypt-Argon2-debuginfo perl(Crypt::Argon2)"
+    }
+  },
+  {
+    "name": "Crypt::Blowfish_PP"
+  },
+  {
+    "name": "Crypt::OpenSSL::AES",
+    "deb": {
+      "build_arm64": "true",
+      "dependencies": "libexporter-tiny-perl libxs-install-perl",
+      "no_auto_depends": "true",
+      "use_dh_make_perl": "false"
+    }
+  },
+  {
+    "name": "DBD::Sybase"
+  },
+  {
+    "name": "DataStruct::Flat"
+  },
+  {
+    "name": "DateTime::Format::Duration::ISO8601",
+    "rpm": {
+      "provides": "perl(DateTime-Format-Duration-ISO8601)"
+    }
+  },
+  {
+    "name": "Device::Modbus"
+  },
+  {
+    "name": "Device::Modbus::RTU::Client"
+  },
+  {
+    "name": "Device::Modbus::TCP::Client"
+  },
+  {
+    "name": "Digest::SHA1"
+  },
+  {
+    "name": "Email::Send::SMTP::Gmail"
+  },
+  {
+    "name": "Exporter::Tiny",
+    "comment": "Required by JSON::Path: the version available in the official repositories doesn't work with the last version of JSON::Path"
+  },
+  {
+    "name": "FFI::CheckLib",
+    "rpm": {
+      "dependencies": "perl(Env)"
+    }
+  },
+  {
+    "name": "FFI::Platypus",
+    "rpm": {
+      "dependencies": "perl(Capture::Tiny) perl(FFI::CheckLib) perl(File::Spec::Functions) perl(IPC::Cmd) perl(JSON::PP) perl(List::Util) perl(autodie) perl(constant) perl(parent)",
+      "no_auto_depends": "true",
+      "provides": "perl(FFI::Platypus::Buffer) perl(FFI::Platypus::Memory)"
+    }
+  },
+  {
+    "name": "File::SearchPath"
+  },
+  {
+    "name": "HTTP::ProxyPAC"
+  },
+  {
+    "name": "Hash::Ordered"
+  },
+  {
+    "name": "JMX::Jmx4Perl"
+  },
+  {
+    "name": "JSON::Path"
+  },
+  {
+    "name": "LV"
+  },
+  {
+    "name": "Libssh::Session",
+    "revision": "2",
+    "deb": {
+      "build_arm64": "true",
+      "dependencies": "libcarp-assert-perl libdynaloader-functions-perl libexporter-tiny-perl libdevel-overloadinfo-perl libssh-4 libc6",
+      "no_auto_depends": "true",
+      "provides": "libssh-session-perl-dbgsym libssh-session-sftp",
+      "use_dh_make_perl": "false"
+    },
+    "rpm": {
+      "dependencies": "libssh",
+      "provides": "perl-Libssh-Session-debuginfo perl(Libssh::Session) perl(Libssh::Sftp)"
+    }
+  },
+  {
+    "name": "Mojo::IOLoop::Signal",
+    "rpm": {
+      "dependencies": "perl-Mojolicious",
+      "no_auto_depends": "true",
+      "provides": "perl(Mojo::IOLoop::Signal)"
+    }
+  },
+  {
+    "name": "MongoDB"
+  },
+  {
+    "name": "MooseX::ClassAttribute"
+  },
+  {
+    "name": "Net::Amazon::Signature::V4"
+  },
+  {
+    "name": "Net::Curl",
+    "revision": "2",
+    "deb": {
+      "build_arm64": "true",
+      "dependencies": "libcarp-assert-perl libdynaloader-functions-perl libexporter-tiny-perl libdevel-overloadinfo-perl libcurl4",
+      "no_auto_depends": "true",
+      "provides": "libnet-curl-perl-dbgsym libnet-curl-compat-perl libnet-curl-easy-perl libnet-curl-form-perl libnet-curl-share-perl libnet-curl-multi-perl",
+      "use_dh_make_perl": "false"
+    },
+    "rpm": {
+      "dependencies": "libcurl",
+      "provides": "perl-Net-Curl-debuginfo perl(Net::Curl) perl(Net::Curl::Compat) perl(Net::Curl::Easy) perl(Net::Curl::Form) perl(Net::Curl::Multi) perl(Net::Curl::Share)"
+    }
+  },
+  {
+    "name": "Net::DHCP",
+    "rpm": {
+      "provides": "perl(Net::DHCP::Constants) perl(Net::DHCP::Packet)"
+    }
+  },
+  {
+    "name": "Net::FTPSSL"
+  },
+  {
+    "name": "Net::HTTPTunnel"
+  },
+  {
+    "name": "Net::MQTT::Simple",
+    "version": "1.29"
+  },
+  {
+    "name": "Net::NTP"
+  },
+  {
+    "name": "Net::SMTPS"
+  },
+  {
+    "name": "Net::SMTP_auth"
+  },
+  {
+    "name": "Net::Subnet"
+  },
+  {
+    "name": "Net::TFTP"
+  },
+  {
+    "name": "PBKDF2::Tiny"
+  },
+  {
+    "name": "Paws",
+    "deb": {
+      "dependencies": "libmoose-perl libmoosex-classattribute-perl libjson-maybexs-perl liburl-encode-perl libargv-struct-perl libmoo-perl libtype-tiny-perl libdatastruct-flat-perl libmodule-find-perl libthrowable-perl liburi-template-perl libnet-amazon-signature-v4-perl",
+      "no_auto_depends": "true",
+      "use_dh_make_perl": "false"
+    }
+  },
+  {
+    "name": "Statistics::Descriptive"
+  },
+  {
+    "name": "Statistics::Regression"
+  },
+  {
+    "name": "Term::Clui"
+  },
+  {
+    "name": "URI::Template"
+  },
+  {
+    "name": "URL::Encode"
+  },
+  {
+    "name": "URL::Encode::XS"
+  },
+  {
+    "name": "UUID",
+    "version": "0.31"
+  },
+  {
+    "name": "UUID::URandom"
+  },
+  {
+    "name": "Unicode::Stringprep"
+  },
+  {
+    "name": "WWW::Selenium"
+  },
+  {
+    "name": "XML::LibXML::Simple"
+  },
+  {
+    "name": "XS::Loader"
+  },
+  {
+    "name": "ZMQ::Constants"
+  },
+  {
+    "name": "ZMQ::FFI",
+    "rpm": {
+      "dependencies": "zeromq"
+    }
+  },
+  {
+    "name": "ZMQ::LibZMQ4",
+    "deb": {
+      "build_arm64": "true",
+      "dependencies": "libzmq5",
+      "use_dh_make_perl": "false"
+    },
+    "rpm": {
+      "dependencies": "zeromq"
+    }
+  }
+]
